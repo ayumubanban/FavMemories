@@ -1,4 +1,6 @@
 FROM ruby:2.6.3
+# irbの日本語対応！
+ENV LANG C.UTF-8
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 RUN mkdir /myapp
 WORKDIR /myapp
