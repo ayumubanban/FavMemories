@@ -3,6 +3,10 @@
     <h1 class="users-heading">ユーザー一覧</h1>
     <% @users.each do |user| %>
       <div class="users-index-item">
+        <div class="user-left">
+          <!-- <img>タグを用いて、プロフィール画像を表示してください-->
+          <img src="">
+        </div>
         <div class="user-right">
           <%= link_to user.name, "/users/#{user.id}" %>
         </div>
