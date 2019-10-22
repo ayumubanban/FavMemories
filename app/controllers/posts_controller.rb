@@ -10,6 +10,8 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
     # @user = User.find_by(id: @post.user_id)
     @user = @post.user
+    # * post has many likes.
+    @likes_count = Like.where(post_id: @post.id).count
   end
 
   def new

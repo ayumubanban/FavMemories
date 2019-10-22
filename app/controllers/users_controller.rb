@@ -80,4 +80,10 @@ class UsersController < ApplicationController
       redirect_to("/posts/index")
     end
   end
+
+  # * user has many likes.
+  def likes
+    @user = User.find_by(id: params[:id])
+    @likes = Like.where(user_id: @user.id)
+  end
 end
