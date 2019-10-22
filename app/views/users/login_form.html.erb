@@ -1,21 +1,18 @@
-<div class="main users-new">
-  <div class="">
-    <div class="form-heading">ログイン</div>
-    <div class="form users-form">
-      <div class="form-body">
-      <% if @error_message %>
-          <div class="form-error">
-            <%= @error_message %>
-          </div>
-        <% end %>
-      <%= form_tag("/login") do %>
-        <p>メールアドレス</p>
-        <input name="email" value="<%= @email %>">
-        <p>パスワード</p>
-        <input type="password" name="password" value="<%= @password %>">
-        <input class="button is-primary" type="submit" value="ログイン">
-      <% end %>
+<div class="">ログイン</div>
+<div class="form users-form">
+  <div class="form-body">
+  <% if @error_message %>
+      <div class="form-error">
+        <%= @error_message %>
       </div>
-    </div>
+    <% end %>
+  <%= form_tag("/login") do %>
+    <p>メールアドレス</p>
+    <input class="input" name="email" value="<%= @email %>">
+    <p>パスワード</p>
+    <input class="input" type="password" name="password" value="<%= @password %>">
+    <br>
+    <input class="button is-primary" type="submit" value="ログイン">
+  <% end %>
   </div>
 </div>

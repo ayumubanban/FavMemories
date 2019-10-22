@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Myapp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,6 +11,7 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   </head>
 
   <body>
@@ -42,7 +44,7 @@
     </nav>
     </header>
     <% if flash[:notice] %>
-      <div class="flash has-background-success padding-y-3 has-text-centered">
+      <div class="flash padding-y-3 has-text-centered has-background-orange has-text-white">
         <%= flash[:notice] %>
       </div>
     <% end %>

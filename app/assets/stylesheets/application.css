@@ -368,3 +368,7 @@
 span a {
   color: white;
 }
+
+.has-background-orange{
+  background-color: #ff9800;
+}
