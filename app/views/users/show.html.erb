@@ -1,32 +1,42 @@
-<div class="main user-show">
-  <div class="">
-    <div class="user">
-      <!-- <img>タグを用いて、プロフィール画像を表示してください -->
-      <img src="">
-      <h2><%= @user.name %></h2>
-      <p><%= @user.email %></p>
-      <% if @user.id == @current_user.id %>
-        <%= link_to '編集', "/users/#{@user.id}/edit" %>
-      <% end %>
-    </div>
+<div class="has-text-centered">
+  <figure class="image is-128x128 margin-x-auto">
+    <img src="/blue_egg.jpg" class="is-rounded">
+  </figure>
+  <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
+  <p><%= @user.email %></p>
+  <% if @user.id == @current_user.id %>
+    <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
+  <% end %>
 
-    <ul class="user-tabs">
-      <li class="active"><%= link_to("投稿", "/users/#{@user.id}") %></li>
+  <div class="tabs is-centered is-boxed">
+    <ul>
+      <li class="is-active"><%= link_to("投稿", "/users/#{@user.id}") %></li>
       <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
     </ul>
-
-    <% @user.posts.each do |post| %>
-      <div class="posts-index-item">
-          <div class="post-left">
-            <img src="">
-          </div>
-          <div class="post-right">
-            <div class="post-user-name">
-              <%= link_to(post.user.name, "/users/#{post.user.id}") %>
-            </div>
-            <%= link_to(post.content, "/posts/#{post.id}") %>
-          </div>
-        </div>
-      <% end %>
   </div>
+
+  <% @user.posts.each do |post| %>
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-96x96">
+          <img src="/blue_egg.jpg" class="is-rounded">
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></strong>
+            <br>
+            <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
+          </p>
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a href="" class="level-item"><span class="icon is-small has-text-info"><i class="fa fa-reply"></i></span></a>
+            <a href="" class="level-item"><span class="icon is-small"><i class="fa fa-heart"></i></span></a>
+          </div>
+        </nav>
+      </div>
+    </article>
+  <% end %>
 </div>
