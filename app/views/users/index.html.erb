@@ -12,6 +12,15 @@
           <strong><%= link_to(user.name, "/users/#{user.id}", class: "has-text-black") %></strong>
         </p>
       </div>
+
+      <% if @current_user != user %>
+        <% if user.followed_by?(@current_user) %>
+          <p><%= link_to "フォロー済み", "/users/#{user.id}/relationships/destroy", {method: :post} %></p>
+        <% else %>
+          <p><%= link_to "フォローする", "/users/#{user.id}/relationships/create", {method: :post} %></p>
+        <% end %>
+      <% end %>
+
     </div>
   </article>
 <% end %>
