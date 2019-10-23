@@ -29,5 +29,8 @@ module Myapp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # * 「Cannot render console from Allowed networks」と言われたので対処
+    config.web_console.whitelisted_ips = '0.0.0.0/0'
   end
 end
