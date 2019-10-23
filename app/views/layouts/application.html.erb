@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Myapp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,39 +11,45 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   </head>
 
   <body>
     <header>
-      <div class="header-logo">
+    <nav class="is-flex padding-x-3 has-background-primary padding-y-3">
+      <div class="">
         <% if @current_user %>
-          <%= link_to("TweetApp", "/posts/index") %>
+          <%= link_to "TweetApp", "/posts/index", class: "has-text-white has-text-weight-bold" %>
         <% else %>
-          <%= link_to("TweetApp", "/") %>
+          <%= link_to("TweetApp", "/", class: "has-text-white has-text-weight-bold" ) %>
         <% end %>
       </div>
-      <ul class="header-menus">
 
+      <div class="margin-left-auto">
         <% if @current_user %>
-          <li>
-            <%= link_to @current_user.name, "/users/#{@current_user.id}" %></li>
-          </li>
-          <li><%= link_to("投稿一覧", "/posts/index") %></li>
-          <li><%= link_to("新規投稿", "/posts/new") %></li>
-          <li><%= link_to("ユーザー一覧", "/users/index") %></li>
-          <li><%= link_to("ログアウト", "/logout", {method: :post}) %></li>
+          <%= link_to @current_user.name, "/users/#{@current_user.id}", class: "has-text-white margin-x-1" %>
+          <%= link_to("投稿一覧", "/posts/index", class: "has-text-white margin-x-1") %>
+          <%= link_to("新規投稿", "/posts/new", class: "has-text-white margin-x-1") %>
+          <%= link_to("ユーザー一覧", "/users/index", class: "has-text-white margin-x-1") %>
+          <span class=" margin-x-1">
+            <%= link_to("ログアウト", "/logout", {method: :post}) %>
+          </span>
         <% else %>
-          <li><%= link_to("TweetAppとは", "/about") %></li>
-          <li><%= link_to("新規登録", "/signup") %></li>
-          <li><%= link_to("ログイン", "/login") %></li>
+          <%= link_to("TweetAppとは", "/about", class: "has-text-white margin-x-1") %>
+          <%= link_to("新規登録", "/signup", class: "has-text-white margin-x-1") %>
+          <%= link_to("ログイン", "/login", class: "has-text-white margin-x-1") %>
         <% end %>
-      </ul>
+      </div>
+
+    </nav>
     </header>
     <% if flash[:notice] %>
-      <div class="flash">
+      <div class="flash padding-y-3 has-text-centered has-background-orange has-text-white">
         <%= flash[:notice] %>
       </div>
     <% end %>
     <%= yield %>
+
+
   </body>
 </html>

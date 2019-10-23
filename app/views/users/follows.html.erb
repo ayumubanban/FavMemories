@@ -19,15 +19,13 @@
   <div class="tabs is-centered is-boxed">
     <ul>
       <li><%= link_to("投稿", "/users/#{@user.id}") %></li>
-      <li class="is-active"><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
-      <li><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
+      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
+      <li class="is-active"><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
       <li><%= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %></li>
     </ul>
   </div>
 
-  <% @likes.each do |like| %>
-    <!-- ここでロジック展開するのは微妙な気がする…has_many, belongs_to導入するか？ -->
-    <% post = Post.find_by(id: like.post_id) %>
+  <% @followings.each do |following| %>
     <article class="media">
       <figure class="media-left">
         <p class="image is-96x96">
@@ -37,17 +35,18 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></strong>
-            <br>
-            <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
+            <strong><%= link_to(following.name, "/users/#{following.id}", class: "has-text-black") %></strong>
           </p>
         </div>
-        <nav class="level is-mobile">
-          <div class="level-left">
-            <a href="" class="level-item"><span class="icon is-small has-text-info"><i class="fa fa-reply"></i></span></a>
-            <a href="" class="level-item"><span class="icon is-small"><i class="fa fa-heart"></i></span></a>
-          </div>
-        </nav>
+
+        <% if @current_user != following %>
+          <% if following.followed_by?(@current_user) %>
+            <p><%= link_to "フォロー済み", "/users/#{following.id}/relationships/destroy", {method: :post} %></p>
+          <% else %>
+            <p><%= link_to "フォローする", "/users/#{following.id}/relationships/create", {method: :post} %></p>
+          <% end %>
+        <% end %>
+
       </div>
     </article>
   <% end %>

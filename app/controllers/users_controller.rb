@@ -72,6 +72,23 @@ class UsersController < ApplicationController
     redirect_to("/login")
   end
 
+  # * user has many likes.
+  def likes
+    @user = User.find_by(id: params[:id])
+    @likes = Like.where(user_id: @user.id)
+  end
+
+  def follows
+    @user = User.find_by(id: params[:id])
+    @followings = @user.followings
+  end
+
+  def followers
+    @user = User.find_by(id: params[:id])
+    @followers = @user.followers
+  end
+
+
   # * 以下、privateにしててもいいかも
 
   def ensure_correct_user
@@ -82,9 +99,4 @@ class UsersController < ApplicationController
     end
   end
 
-  # * user has many likes.
-  def likes
-    @user = User.find_by(id: params[:id])
-    @likes = Like.where(user_id: @user.id)
-  end
 end
