@@ -8,10 +8,20 @@
     <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
   <% end %>
 
+  <% if @current_user != @user %>
+    <% if @user.followed_by?(@current_user) %>
+      <p><%= link_to "フォロー済み", "/users/#{@user.id}/relationships/destroy", {method: :post} %></p>
+    <% else %>
+      <p><%= link_to "フォローする", "/users/#{@user.id}/relationships/create", {method: :post} %></p>
+    <% end %>
+  <% end %>
+
   <div class="tabs is-centered is-boxed">
     <ul>
       <li class="is-active"><%= link_to("投稿", "/users/#{@user.id}") %></li>
       <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
+      <li><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
+      <li><%= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %></li>
     </ul>
   </div>
 

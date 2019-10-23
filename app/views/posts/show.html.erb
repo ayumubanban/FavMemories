@@ -1,5 +1,3 @@
-<%#= @post.content %>
-
 <div class="main posts-show">
   <div class="">
     <div class="posts-show-item">
@@ -11,6 +9,15 @@
       <div class="post-time">
         <%= @post.created_at %>
       </div>
+
+      <% if @current_user != @user %>
+        <% if @user.followed_by?(@current_user) %>
+          <p><%= link_to 'フォロー済み', "/users/#{@user.id}/relationships/destroy", {method: :post} %></p>
+        <% else %>
+          <p><%= link_to 'フォローする', "/users/#{@user.id}/relationships/create", {method: :post} %></p>
+        <% end %>
+      <% end %>
+
       <% if Like.find_by(user_id: @current_user.id, post_id: @post.id ) %>
         <%#= link_to 'いいね！済み', "/likes/#{@post.id}/destroy", {method: :post} %>
         <%= link_to "/likes/#{@post.id}/destroy", {method: :post} do %>
