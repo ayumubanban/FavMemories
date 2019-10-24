@@ -3,7 +3,11 @@
   <article class="media">
     <figure class="media-left">
       <p class="image is-96x96">
-        <img src="/blue_egg.jpg" class="is-rounded">
+        <% if user.avatar.attached? %>
+          <%= image_tag user.avatar, class: "is-rounded" %>
+        <% else %>
+          <img src="/blue_egg.jpg" class="is-rounded">
+        <% end %>
       </p>
     </figure>
     <div class="media-content">

@@ -56,3 +56,4 @@ end
 
 gem "bcrypt"
 gem "bulma-rails", "~> 0.7.5"
+gem "aws-sdk-s3", require: false

@@ -1,6 +1,10 @@
 <div class="has-text-centered">
   <figure class="image is-128x128 margin-x-auto">
-    <img src="/blue_egg.jpg" class="is-rounded">
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar, class: "is-rounded" %>
+    <% else %>
+      <img src="/blue_egg.jpg" class="is-rounded">
+    <% end %>
   </figure>
   <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
   <p><%= @user.email %></p>
