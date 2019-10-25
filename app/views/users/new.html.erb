@@ -2,19 +2,26 @@
   <div class="form users-form">
     <div class="form-body">
     <% @user.errors.full_messages.each do |message| %>
-      <div class="form-error">
+      <div class="has-text-danger">
         <%= message %>
       </div>
     <% end %>
-    <%= form_tag("/users/create") do %>
-      <p>ユーザー名</p>
-      <input class="input" name="name" value="<%= @user.name %>">
-      <p>メールアドレス</p>
-      <input class="input" name="email" value="<%= @user.email %>">
-      <p>パスワード</p>
-      <input class="input" name="password" type="password" value="<%= @user.password %>">
+
+    <%= form_with model: @user, url: "/users/create", local: true do |form| %>
+      <%= form.label :name, "ユーザー名"%>
+      <%= form.text_field :name, value: @user.name, class: "" %>
+      <%= form.label :email, "メールアドレス" %>
+      <%= form.text_field :email, value: @user.email, class: "" %>
+      <%= form.label :avatar, "プロフィール画像(任意)" %>
+
+      <%= form.file_field :avatar, class: "" %>
+
       <br>
-      <input class="button is-primary" type="submit" value="新規登録">
+      <%= form.label :password, "パスワード" %>
+      <%= form.password_field :password, value: @user.password, class: "" %>
+      <br>
+      <%= form.submit "新規登録", class: "button is-primary" %>
     <% end %>
+
     </div>
   </div>
