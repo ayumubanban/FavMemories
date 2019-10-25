@@ -27,6 +27,6 @@
 /config/master.key
 
 # cloudfront
-# /config/asset_sync.yml
+/config/asset_sync.yml
 
 .env
