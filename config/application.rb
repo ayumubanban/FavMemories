@@ -31,6 +31,15 @@ module Myapp
     config.generators.system_tests = nil
 
     # * 「Cannot render console from Allowed networks」と言われたので対処
-    config.web_console.whitelisted_ips = '0.0.0.0/0'
+    # config.web_console.whitelisted_ips = '0.0.0.0/0'
+
+    # * rails g実行時に同時生成するSpecファイルを設定
+    config.generators do |g|
+      g.test_framework :rspec,
+            view_specs: false,
+            helper_specs: false,
+            controller_specs: false,
+            routing_specs: false
+    end
   end
 end
