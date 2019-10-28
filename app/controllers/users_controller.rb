@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       flash[:notice] = "ユーザー登録が完了しました"
       redirect_to("/users/#{@user.id}")
     else
+      # ! 更新するとエラーなるのでルーティングを POST /users/createではなく /users に直した方がいいような気がする。これはupdateアクション等に関しても当てはまる。
       render("users/new")
     end
   end
@@ -36,6 +37,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
 
+  # ! ストロングパラメータにした方がいい
   def update
     @user = User.find_by(id: params[:id])
     @user.name = params[:name]
