@@ -8,7 +8,9 @@ class LikesController < ApplicationController
     )
     @like.save
     # * この１文がないと表示が切り替わらないし、サーバーへも通信されるしいいことない
-    redirect_to("/posts/#{params[:post_id]}")
+    # redirect_to("/posts/#{params[:post_id]}")
+    # * なんか動くなぁ。referrer
+    redirect_to request.referrer
   end
 
   def destroy
@@ -17,7 +19,8 @@ class LikesController < ApplicationController
       post_id: params[:post_id]
     )
     @like.destroy
-    redirect_to("/posts/#{params[:post_id]}")
+    # redirect_to("/posts/#{params[:post_id]}")
+    redirect_to request.referrer
   end
 
 end
