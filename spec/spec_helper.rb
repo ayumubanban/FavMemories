@@ -94,6 +94,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
+  # * テスト実行ごとにdatabaseをcleanにする
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
