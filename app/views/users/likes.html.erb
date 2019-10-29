@@ -29,9 +29,9 @@
     </ul>
   </div>
 
-  <% @likes.each do |like| %>
+  <% @like_posts.each do |post| %>
     <!-- ここでロジック展開するのは微妙な気がする…has_many, belongs_to導入するか？ -->
-    <% post = Post.find_by(id: like.post_id) %>
+    <%# post = Post.find_by(id: like.post_id) %>
     <article class="media">
       <figure class="media-left">
         <p class="image is-96x96">
