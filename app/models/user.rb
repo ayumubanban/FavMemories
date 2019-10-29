@@ -6,7 +6,7 @@ class User < ApplicationRecord
   # validates :password, { presence: true }
 
   # * 投稿
-  # has_many :posts
+  has_many :posts
 
   # * コメント
   has_many :comments
@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
 
   # * user has many postsっていう1対多の関係を自分らでメソッド定義して表してる
-  def posts
-    return Post.where(user_id: self.id)
-  end
+  # def posts
+  #   return Post.where(user_id: self.id)
+  # end
 end
