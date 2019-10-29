@@ -5,6 +5,9 @@ class User < ApplicationRecord
   validates :email, { presence: true, uniqueness: true }
   # validates :password, { presence: true }
 
+  # * 投稿
+  # has_many :posts
+
   # * コメント
   has_many :comments
 

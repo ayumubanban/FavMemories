@@ -2,6 +2,9 @@ class Post < ApplicationRecord
   validates :content, { presence: true, length: { maximum: 140 } }
   validates :user_id, { presence: true }
 
+  # * ユーザー
+  # belongs_to :user
+
   # * コメント
   has_many :comments
 
