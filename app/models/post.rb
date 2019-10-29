@@ -5,6 +5,9 @@ class Post < ApplicationRecord
   # * ユーザー
   belongs_to :user
 
+  # * いいね
+  has_many :likes
+
   # * コメント
   has_many :comments
 
@@ -13,4 +16,11 @@ class Post < ApplicationRecord
   #   # * post belongs to userっていう従属関係を自分らでメソッド定義して表してる
   #   return User.find_by(id: self.user_id)
   # end
+
+  # * ツイートがいいねされているかどうか
+  def liked_by?(user)
+    likes.where(user_id: user.id).exists?
+  end
+
+
 end

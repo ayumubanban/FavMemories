@@ -79,7 +79,8 @@ class UsersController < ApplicationController
   # * user has many likes.
   def likes
     @user = User.find_by(id: params[:id])
-    @likes = Like.where(user_id: @user.id)
+    # @likes = Like.where(user_id: @user.id)
+    @like_posts = @user.like_posts
   end
 
   def follows

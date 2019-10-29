@@ -8,6 +8,10 @@ class User < ApplicationRecord
   # * 投稿
   has_many :posts
 
+  # * いいね
+  has_many :likes
+  has_many :like_posts, through: :likes, source: :post
+
   # * コメント
   has_many :comments
 
