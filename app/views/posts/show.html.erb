@@ -47,28 +47,57 @@
   <div class="post-menus">
     <% if @post.user_id == @current_user.id %>
       <%= link_to("編集", "/posts/#{@post.id}/edit") %>
-      <%= link_to("削除", "/posts/#{@post.id}/destroy", {method: "post"}) %>
+      <%= link_to("削除", "/posts/#{@post.id}", method: :delete) %>
     <% end %>
   </div>
 
 
 </div>
 
-<%= form_with model: [@post, @comment], url: "/posts/#{@post.id}/comments/create", local: true do |form| %>
+
+<div class="box">
+  <% @comments.each do |comment| %>
+
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <% if comment.user.avatar.attached? %>
+            <%= image_tag comment.user.avatar, class: "is-rounded" %>
+          <% else %>
+            <img src="/blue_egg.jpg" class="is-rounded">
+          <% end %>
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= link_to(comment.user.name, "/users/#{comment.user.id}", class: "has-text-black") %></strong>
+            <br>
+            <%= comment.content %>
+          </p>
+        </div>
+        <% if comment.user_id == @current_user.id %>
+          <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}", method: :delete, remote: true) %>
+        <% end %>
+      </div>
+    </article>
+
+    <!--
+    <p><span>名前: </span><%= link_to comment.user.name, "/users/#{comment.user.id}" %></p>
+    <p><span>コメント内容： </span><%= comment.content %></p>
+    <% if comment.user_id == @current_user.id %>
+      <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}", method: :delete, remote: true) %>
+    <% end %>
+    <hr>
+    -->
+
+  <% end %>
+</div>
+
+<%= form_with model: [@post, @comment], url: "/posts/#{@post.id}/comments", local: true do |form| %>
   <p>
     <%= form.label :content, "コメント" %>
     <%= form.text_field :content %>
   </p>
   <%= form.submit %>
 <% end %>
-
-<div class="box">
-  <% @comments.each do |comment| %>
-    <p><span>名前: </span><%= link_to comment.user.name, "/users/#{comment.user.id}" %></p>
-    <p><span>コメント内容： </span><%= comment.content %></p>
-    <% if comment.user_id == @current_user.id %>
-      <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}/destroy", method: "post") %>
-    <% end %>
-    <hr>
-  <% end %>
-</div>

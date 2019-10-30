@@ -4,7 +4,8 @@ class CommentsController < ApplicationController
     @comment = @current_user.comments.build(comment_params)
     @comment.post_id = @post.id
     @comment.save
-    redirect_to("/posts/#{@post.id}")
+    # redirect_to("/posts/#{@post.id}")
+    redirect_to request.referrer
   end
 
   def destroy
@@ -14,7 +15,8 @@ class CommentsController < ApplicationController
       id: params[:id]
     )
     @comment.destroy
-    redirect_to("/posts/#{params[:post_id]}")
+    # redirect_to("/posts/#{params[:post_id]}")
+    redirect_to request.referrer
   end
 
   private

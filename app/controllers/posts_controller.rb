@@ -12,7 +12,8 @@ class PostsController < ApplicationController
     # * モデルで定義
     @user = @post.user
     # * post has many likes.
-    @likes_count = Like.where(post_id: @post.id).count
+    # @likes_count = Like.where(post_id: @post.id).count
+    @likes_count = @post.likes.count
     @comment = @current_user.comments.build
     @comments = @post.comments
   end
@@ -24,12 +25,14 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(
-      content: params[:content],
+      # * form_with
+      content: params[:post][:content],
       user_id: @current_user.id
     )
     if @post.save
       flash[:notice] = "投稿を作成しました"
-      redirect_to("/posts/index")
+      # redirect_to("/posts/index")
+      redirect_to("/posts")
     else
       render("posts/new")
     end
@@ -41,10 +44,11 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find_by(id: params[:id])
-    @post.content = params[:content]
+    @post.content = params[:post][:content]
     if @post.save
       flash[:notice] = "投稿を編集しました"
-      redirect_to("/posts/index")
+      # redirect_to("/posts/index")
+      redirect_to("/posts/#{@post.id}")
     else
       # redirect_to("/posts/#{@post.id}/edit")
       render("posts/edit")
@@ -55,7 +59,8 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
     @post.destroy
     flash[:notice] = "投稿を削除しました"
-    redirect_to("/posts/index")
+    # redirect_to("/posts/index")
+    redirect_to("/posts")
   end
 
   # * 以下、privateでええかも
@@ -66,7 +71,8 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
     if @current_user.id != @post.user_id
       flash[:notice] =  "権限がありません"
-      redirect_to("/posts/index")
+      # redirect_to("/posts/index")
+      redirect_to("/posts")
     end
   end
 
