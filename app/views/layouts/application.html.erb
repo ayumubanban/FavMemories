@@ -31,6 +31,7 @@
       </div>
 
       <div class="margin-left-auto">
+        <%# ログインしてる？ %>
         <% if @current_user %>
           <%= link_to @current_user.name, "/users/#{@current_user.id}", class: "has-text-white margin-x-1" %>
           <%#= link_to("投稿一覧", "/posts/index", class: "has-text-white margin-x-1") %>
@@ -41,7 +42,10 @@
             <%= link_to("ログアウト", "/logout", {method: :delete}) %>
           </span>
         <% else %>
+          <%# これどうしよう。ログイン時も表示させるか迷うなぁ %>
           <%= link_to("TweetAppとは", "/about", class: "has-text-white margin-x-1") %>
+          <%= link_to("投稿一覧", "/posts", class: "has-text-white margin-x-1") %>
+          <%= link_to("ユーザー一覧", "/users", class: "has-text-white margin-x-1") %>
           <%= link_to("新規登録", "/signup", class: "has-text-white margin-x-1") %>
           <%= link_to("ログイン", "/login", class: "has-text-white margin-x-1") %>
         <% end %>

@@ -8,19 +8,29 @@
   </figure>
   <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
   <p><%= @user.email %></p>
-  <% if @user.id == @current_user.id %>
+  <%# これはidを比較する必要はあるのか？ないよな？ %>
+  <%# if @user.id == @current_user.id %>
+  <% if @user == @current_user %>
     <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
   <% end %>
 
-  <% if @current_user != @user %>
-    <% if @user.followed_by?(@current_user) %>
-      <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
-        <button class="button is-rounded is-info is-normal">フォロー済み</button>
+  <%# ログインしてる？ %>
+  <% if @current_user %>
+    <% if @current_user != @user %>
+      <% if @user.followed_by?(@current_user) %>
+        <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
+          <button class="button is-rounded is-info is-normal">フォロー済み</button>
+        <% end %>
+      <% else %>
+        <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
+          <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
+        <% end %>
       <% end %>
-    <% else %>
-      <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
-        <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
-      <% end %>
+    <% end %>
+  <% else %>
+    <%# ログインを促される宿命 %>
+    <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
+      <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
     <% end %>
   <% end %>
 
@@ -54,8 +64,28 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <a href="" class="level-item"><span class="icon is-small has-text-info"><i class="fa fa-reply"></i></span></a>
-            <a href="" class="level-item"><span class="icon is-small"><i class="fa fa-heart"></i></span></a>
+            <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
+
+            <%# ログインしてる？ %>
+            <% if @current_user %>
+              <%# いいねしてる？ %>
+              <% if post.liked_by?(@current_user) %>
+                <%= link_to "/posts/#{post.id}/likes", method: :delete, remote: true do %>
+                  <span class="fa fa-heart like-btn-unlike has-text-danger"></span>
+                <% end %>
+              <% else %>
+                <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
+                  <span class="fa fa-heart like-btn has-text-grey"></span>
+                <% end %>
+              <% end %>
+              <%= post.likes.count %>
+            <% else %>
+              <%# ログインを促される宿命 %>
+              <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
+                <span class="fa fa-heart like-btn has-text-grey"></span>
+              <% end %>
+              <%= post.likes.count %>
+            <% end %>
           </div>
         </nav>
       </div>

@@ -6,10 +6,10 @@ class Post < ApplicationRecord
   belongs_to :user
 
   # * いいね
-  has_many :likes
+  has_many :likes, dependent: :destroy
 
   # * コメント
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   # def user
   #   # * インスタンスメソッド内で、selfはそのインスタンス自身を指す

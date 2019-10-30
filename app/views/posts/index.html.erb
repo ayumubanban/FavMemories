@@ -19,6 +19,7 @@
           <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
         </p>
       </div>
+
       <nav class="level is-mobile">
         <div class="level-left">
           <%# リンクにせんでもええかなと思い、aタグを外した←いや、とりまリンクにしといて、コメント投稿用のモーダルを表示されられるといいよね %>
@@ -38,7 +39,11 @@
             <% end %>
             <%= post.likes.count %>
           <% else %>
-            <span class="fa fa-heart like-btn has-text-grey"></span><%= post.likes.count %>
+            <%# ログインを促される宿命 %>
+            <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
+              <span class="fa fa-heart like-btn has-text-grey"></span>
+            <% end %>
+            <%= post.likes.count %>
           <% end %>
         </div>
       </nav>
