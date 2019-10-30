@@ -19,12 +19,12 @@
 
   <% if @current_user != @user %>
     <% if @user.followed_by?(@current_user) %>
-      <%= link_to "/users/#{@user.id}/relationships/destroy", method: :post, remote: true do %>
+      <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
         <%# フォロー済み %>
         <button class="button is-rounded is-info is-normal">フォロー済み</button>
       <% end %>
     <% else %>
-      <%= link_to "/users/#{@user.id}/relationships/create", method: :post, remote: true do %>
+      <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
         <%# フォローする %>
         <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
       <% end %>
