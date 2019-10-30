@@ -21,8 +21,8 @@
       </div>
       <nav class="level is-mobile">
         <div class="level-left">
-          <%# リンクにせんでもええかなと思い、aタグを外した %>
-          <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span>
+          <%# リンクにせんでもええかなと思い、aタグを外した←いや、とりまリンクにしといて、コメント投稿用のモーダルを表示されられるといいよね %>
+          <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
 
           <%# ログインしてる？ %>
           <% if @current_user %>

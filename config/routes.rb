@@ -25,16 +25,22 @@ Rails.application.routes.draw do
   get "users/:id/followers" => "users#followers"
 
   # * posts
-  get 'posts/index' => "posts#index"
+  # get 'posts/index' => "posts#index"
+  get 'posts' => "posts#index"
   get "posts/new" => "posts#new"
-  post "posts/create" => "posts#create"
+  # post "posts/create" => "posts#create"
+  post "posts" => "posts#create"
   get "posts/:id" => "posts#show"
   get "posts/:id/edit" => "posts#edit"
-  post "posts/:id/update" => "posts#update"
-  post "posts/:id/destroy" => "posts#destroy"
+  # post "posts/:id/update" => "posts#update"
+  put "posts/:id" => "posts#update"
+  # post "posts/:id/destroy" => "posts#destroy"
+  delete "posts/:id" => "posts#destroy"
   # * posts / comments
-  post "posts/:post_id/comments/create" => "comments#create"
-  post "posts/:post_id/comments/:id/destroy" => "comments#destroy"
+  # post "posts/:post_id/comments/create" => "comments#create"
+  post "posts/:post_id/comments" => "comments#create"
+  # post "posts/:post_id/comments/:id/destroy" => "comments#destroy"
+  delete "posts/:post_id/comments/:id" => "comments#destroy"
 
   # * home
   get '/' => "home#top"

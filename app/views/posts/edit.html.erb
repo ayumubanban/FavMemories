@@ -1,6 +1,19 @@
 <div class="main posts-new">
   <div class="">
     <h1 class="form-heading">編集する</h1>
+
+    <% @post.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
+    <%= form_with model: @post, url: "/posts/#{@post.id}", method: :put, local: true do |form| %>
+      <%= form.label :content, "投稿内容" %>
+      <%= form.text_area :content, value: @post.content, class: "" %>
+      <%= form.submit "投稿", class: "button is-primary" %>
+    <% end %>
+
+    <!--
     <%= form_tag("/posts/#{@post.id}/update") do %>
       <div class="form">
         <div class="form-body">
@@ -14,5 +27,7 @@
         </div>
       </div>
     <% end %>
+    -->
+
   </div>
 </div>
