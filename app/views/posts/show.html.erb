@@ -10,46 +10,67 @@
       <img src="/blue_egg.jpg" class="is-rounded">
     <% end %>
   </figure>
-    <%= link_to @user.name, "/users/#{@user.id}" %>
+  <%= link_to @user.name, "/users/#{@user.id}" %>
 
   <p><%= @post.content %></p>
   <div class="post-time">
     <%= @post.created_at %>
   </div>
 
-  <% if @current_user != @user %>
-    <% if @user.followed_by?(@current_user) %>
-      <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
-        <%# フォロー済み %>
-        <button class="button is-rounded is-info is-normal">フォロー済み</button>
+  <%# ログインしてる？ %>
+  <% if @current_user %>
+    <% if @current_user != @user %>
+      <% if @user.followed_by?(@current_user) %>
+        <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
+          <%# フォロー済み %>
+          <button class="button is-rounded is-info is-normal">フォロー済み</button>
+        <% end %>
+      <% else %>
+        <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
+          <%# フォローする %>
+          <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
+        <% end %>
       <% end %>
-    <% else %>
-      <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
-        <%# フォローする %>
-        <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
-      <% end %>
+    <% end %>
+  <% else %>
+    <%# ログインを促される宿命 %>
+    <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
+      <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
     <% end %>
   <% end %>
 
-  <% if Like.find_by(user_id: @current_user.id, post_id: @post.id ) %>
-    <%#= link_to "/likes/#{@post.id}/destroy", method: :post, remote: true do %>
-    <%= link_to "/posts/#{@post.id}/likes", method: :delete, remote: true do %>
-      <span class="fa fa-heart like-btn-unlike has-text-danger"></span>
+  <%# ログインしてる？ %>
+  <% if @current_user %>
+    <%# ここでロジック持ってくるのはちょっと…他にうまいやり方あるやろ %>
+    <% if Like.find_by(user_id: @current_user.id, post_id: @post.id ) %>
+      <%#= link_to "/likes/#{@post.id}/destroy", method: :post, remote: true do %>
+      <%= link_to "/posts/#{@post.id}/likes", method: :delete, remote: true do %>
+        <span class="fa fa-heart like-btn-unlike has-text-danger"></span>
+      <% end %>
+    <% else %>
+      <%#= link_to "/likes/#{@post.id}/create", method: :post, remote: true do %>
+      <%= link_to "/posts/#{@post.id}/likes", method: :post, remote: true do %>
+        <span class="fa fa-heart like-btn has-text-grey"></span>
+      <% end %>
     <% end %>
+    <%= @likes_count %>
   <% else %>
-    <%#= link_to "/likes/#{@post.id}/create", method: :post, remote: true do %>
+    <%# ログインを促される宿命 %>
     <%= link_to "/posts/#{@post.id}/likes", method: :post, remote: true do %>
       <span class="fa fa-heart like-btn has-text-grey"></span>
     <% end %>
+    <%= @post.likes.count %>
   <% end %>
-  <%= @likes_count %>
 
-  <div class="post-menus">
-    <% if @post.user_id == @current_user.id %>
-      <%= link_to("編集", "/posts/#{@post.id}/edit") %>
-      <%= link_to("削除", "/posts/#{@post.id}", method: :delete) %>
-    <% end %>
-  </div>
+  <%# ログインしてる？ %>
+  <% if @current_user %>
+    <div class="post-menus">
+        <% if @post.user_id == @current_user.id %>
+          <%= link_to("編集", "/posts/#{@post.id}/edit") %>
+          <%= link_to("削除", "/posts/#{@post.id}", method: :delete) %>
+        <% end %>
+    </div>
+  <% end %>
 
 
 </div>
@@ -76,28 +97,26 @@
             <%= comment.content %>
           </p>
         </div>
-        <% if comment.user_id == @current_user.id %>
-          <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}", method: :delete, remote: true) %>
+
+        <%# ログインしてる？ %>
+        <% if @current_user %>
+          <% if comment.user_id == @current_user.id %>
+            <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}", method: :delete, remote: true) %>
+          <% end %>
         <% end %>
       </div>
     </article>
 
-    <!--
-    <p><span>名前: </span><%= link_to comment.user.name, "/users/#{comment.user.id}" %></p>
-    <p><span>コメント内容： </span><%= comment.content %></p>
-    <% if comment.user_id == @current_user.id %>
-      <%= link_to("削除", "/posts/#{@post.id}/comments/#{comment.id}", method: :delete, remote: true) %>
-    <% end %>
-    <hr>
-    -->
-
   <% end %>
 </div>
 
-<%= form_with model: [@post, @comment], url: "/posts/#{@post.id}/comments", local: true do |form| %>
-  <p>
-    <%= form.label :content, "コメント" %>
-    <%= form.text_field :content %>
-  </p>
-  <%= form.submit %>
+<%# ログインしてる？ %>
+<% if @current_user %>
+  <%= form_with model: [@post, @comment], url: "/posts/#{@post.id}/comments", local: true do |form| %>
+    <p>
+      <%= form.label :content, "コメント" %>
+      <%= form.text_field :content %>
+    </p>
+    <%= form.submit %>
+  <% end %>
 <% end %>

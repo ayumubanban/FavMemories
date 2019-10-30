@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user, except: [:index, :show]
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
 
   def index
@@ -14,7 +14,9 @@ class PostsController < ApplicationController
     # * post has many likes.
     # @likes_count = Like.where(post_id: @post.id).count
     @likes_count = @post.likes.count
-    @comment = @current_user.comments.build
+    if @current_user
+      @comment = @current_user.comments.build
+    end
     @comments = @post.comments
   end
 
