@@ -14,9 +14,13 @@
 
   <% if @current_user != @user %>
     <% if @user.followed_by?(@current_user) %>
-      <p><%= link_to "フォロー済み", "/users/#{@user.id}/relationships/destroy", {method: :post} %></p>
+      <%= link_to "/users/#{@user.id}/relationships", method: :delete, remote: true do %>
+        <button class="button is-rounded is-info is-normal">フォロー済み</button>
+      <% end %>
     <% else %>
-      <p><%= link_to "フォローする", "/users/#{@user.id}/relationships/create", {method: :post} %></p>
+      <%= link_to "/users/#{@user.id}/relationships", method: :post, remote: true do %>
+        <button class="button is-rounded has-text-info is-normal" style="border-color: #3298dc;">フォローする</button>
+      <% end %>
     <% end %>
   <% end %>
 
@@ -33,7 +37,11 @@
     <article class="media">
       <figure class="media-left">
         <p class="image is-96x96">
-          <img src="/blue_egg.jpg" class="is-rounded">
+          <% if post.user.avatar.attached? %>
+            <%= image_tag post.user.avatar, class: "is-rounded" %>
+          <% else %>
+            <img src="/blue_egg.jpg" class="is-rounded">
+          <% end %>
         </p>
       </figure>
       <div class="media-content">

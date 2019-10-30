@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   # * users / likes
   get "users/:id/likes" => "users#likes"
   # * users / relationships
-  post "users/:user_id/relationships/create" => "relationships#create"
-  post "users/:user_id/relationships/destroy" => "relationships#destroy"
+  post "users/:user_id/relationships" => "relationships#create"
+  delete "users/:user_id/relationships" => "relationships#destroy"
   get "users/:id/follows" => "users#follows"
   get "users/:id/followers" => "users#followers"
 
