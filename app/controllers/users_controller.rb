@@ -37,11 +37,17 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
 
-  # ! ストロングパラメータにした方がいい
+  # * ストロングパラメータにした方がいい←と思ってたけど、無理にする必要はないよね
   def update
     @user = User.find_by(id: params[:id])
-    @user.name = params[:name]
-    @user.email = params[:email]
+    # * form_withはform_tagとここが違う
+    @user.name = params[:user][:name]
+    @user.email = params[:user][:email]
+    # * 画像の選択は任意
+    if avatar = params[:user][:avatar]
+      @user.avatar.attach(avatar)
+    end
+    # @user.avatar = params[:user][:avatar]
     if @user.save
       flash[:notice] = "ユーザー情報を編集しました"
       redirect_to("/users/#{@user.id}")
@@ -54,6 +60,7 @@ class UsersController < ApplicationController
 
   end
 
+  # * POST
   def login
     # @user = User.find_by(email: params[:email], password: params[:password])
     @user = User.find_by(email: params[:email])
