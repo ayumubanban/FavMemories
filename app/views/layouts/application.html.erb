@@ -34,9 +34,9 @@
           <%= link_to @current_user.name, "/users/#{@current_user.id}", class: "has-text-white margin-x-1" %>
           <%= link_to("投稿一覧", "/posts/index", class: "has-text-white margin-x-1") %>
           <%= link_to("新規投稿", "/posts/new", class: "has-text-white margin-x-1") %>
-          <%= link_to("ユーザー一覧", "/users/index", class: "has-text-white margin-x-1") %>
+          <%= link_to("ユーザー一覧", "/users", class: "has-text-white margin-x-1") %>
           <span class=" margin-x-1">
-            <%= link_to("ログアウト", "/logout", {method: :post}) %>
+            <%= link_to("ログアウト", "/logout", {method: :delete}) %>
           </span>
         <% else %>
           <%= link_to("TweetAppとは", "/about", class: "has-text-white margin-x-1") %>
@@ -60,8 +60,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <!-- 画像がクリックされた時にポップアップの表示 -->
     <script type="text/javascript">
+      // 画像がクリックされた時にポップアップの表示
       $('.popup-link').magnificPopup({
         type: 'image'
+      });
+      // 画像を選択した際のプレビュー機能
+      $(function() {
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#img_prev').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+        $("#book_img").change(function(){
+          readURL(this);
+        });
       });
     </script>
 

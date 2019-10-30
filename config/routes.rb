@@ -9,13 +9,13 @@ Rails.application.routes.draw do
   # * users
   get "login" => "users#login_form"
   post "login" => "users#login"
-  post "logout" => "users#logout"
-  get 'users/index' => "users#index"
+  delete "logout" => "users#logout"
+  get 'users' => "users#index"
   get "users/:id" => "users#show"
   get "signup" => "users#new"
-  post "users/create" => "users#create"
+  post "users" => "users#create"
   get "users/:id/edit" => "users#edit"
-  post "users/:id/update" => "users#update"
+  put "users/:id" => "users#update"
   # * users / likes
   get "users/:id/likes" => "users#likes"
   # * users / relationships

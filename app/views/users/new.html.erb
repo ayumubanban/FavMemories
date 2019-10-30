@@ -7,7 +7,7 @@
       </div>
     <% end %>
 
-    <%= form_with model: @user, url: "/users/create", local: true do |form| %>
+    <%= form_with model: @user, url: "/users", local: true do |form| %>
       <%= form.label :name, "ユーザー名"%>
       <%= form.text_field :name, value: @user.name, class: "" %>
       <%= form.label :email, "メールアドレス" %>

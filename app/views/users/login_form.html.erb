@@ -2,17 +2,22 @@
 <div class="form users-form">
   <div class="form-body">
   <% if @error_message %>
-      <div class="form-error">
-        <%= @error_message %>
-      </div>
-    <% end %>
-  <%= form_tag("/login") do %>
-    <p>メールアドレス</p>
+    <div class="form-error">
+      <%= @error_message %>
+    </div>
+  <% end %>
+  <%= form_with model: @user, url: "/login", local: true do |form| %>
+    <!-- <p>メールアドレス</p>
     <input class="input" name="email" value="<%= @email %>">
     <p>パスワード</p>
     <input class="input" type="password" name="password" value="<%= @password %>">
     <br>
-    <input class="button is-primary" type="submit" value="ログイン">
+    <input class="button is-primary" type="submit" value="ログイン"> -->
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.text_field :email, value: @email, class: "" %>
+    <%= form.label :password, "パスワード" %>
+    <%= form.password_field :password, value: @password, class: "" %>
+    <%= form.submit "ログイン", class: "button is-primary" %>
   <% end %>
   </div>
 </div>
