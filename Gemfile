@@ -65,3 +65,5 @@ gem "aws-sdk-s3", require: false
 # assetとs3の連携
 # gem 'asset_sync'
 
+# ajax導入のため
+gem 'jquery-rails'
