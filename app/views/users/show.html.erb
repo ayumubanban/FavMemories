@@ -66,26 +66,11 @@
           <div class="level-left">
             <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
 
-            <%# ログインしてる？ %>
-            <% if @current_user %>
-              <%# いいねしてる？ %>
-              <% if post.liked_by?(@current_user) %>
-                <%= link_to "/posts/#{post.id}/likes", method: :delete, remote: true do %>
-                  <span class="fa fa-heart like-btn-unlike has-text-danger"></span>
-                <% end %>
-              <% else %>
-                <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
-                  <span class="fa fa-heart like-btn has-text-grey"></span>
-                <% end %>
-              <% end %>
-              <%= post.likes.count %>
-            <% else %>
-              <%# ログインを促される宿命 %>
-              <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
-                <span class="fa fa-heart like-btn has-text-grey"></span>
-              <% end %>
-              <%= post.likes.count %>
-            <% end %>
+            <%# いいね ajax %>
+            <div id="likes_buttons_<%= post.id %>">
+              <%= render partial: 'likes/like', locals: { post: post } %>
+            </div>
+
           </div>
         </nav>
       </div>

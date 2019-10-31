@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     @user = @post.user
     # * post has many likes.
     # @likes_count = Like.where(post_id: @post.id).count
-    @likes_count = @post.likes.count
+    # @likes_count = @post.likes.count
     if @current_user
       @comment = @current_user.comments.build
     end
