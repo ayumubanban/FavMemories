@@ -39,28 +39,10 @@
     <% end %>
   <% end %>
 
-  <%# ログインしてる？ %>
-  <% if @current_user %>
-    <%# ここでロジック持ってくるのはちょっと…他にうまいやり方あるやろ %>
-    <% if Like.find_by(user_id: @current_user.id, post_id: @post.id ) %>
-      <%#= link_to "/likes/#{@post.id}/destroy", method: :post, remote: true do %>
-      <%= link_to "/posts/#{@post.id}/likes", method: :delete, remote: true do %>
-        <span class="fa fa-heart like-btn-unlike has-text-danger"></span>
-      <% end %>
-    <% else %>
-      <%#= link_to "/likes/#{@post.id}/create", method: :post, remote: true do %>
-      <%= link_to "/posts/#{@post.id}/likes", method: :post, remote: true do %>
-        <span class="fa fa-heart like-btn has-text-grey"></span>
-      <% end %>
-    <% end %>
-    <%= @likes_count %>
-  <% else %>
-    <%# ログインを促される宿命 %>
-    <%= link_to "/posts/#{@post.id}/likes", method: :post, remote: true do %>
-      <span class="fa fa-heart like-btn has-text-grey"></span>
-    <% end %>
-    <%= @post.likes.count %>
-  <% end %>
+  <%# いいね ajax %>
+  <div id="likes_buttons_<%= @post.id %>">
+    <%= render partial: 'likes/like', locals: { post: @post } %>
+  </div>
 
   <%# ログインしてる？ %>
   <% if @current_user %>
