@@ -24,7 +24,9 @@
         <%= render partial: "relationships/follow", locals: { user: user } %>
       </div>
 
-
+      <% if @current_user.admin? && !(@current_user == user) %>
+        <%= link_to "削除", "/users/#{user.id}", method: :delete %>
+      <% end %>
 
     </div>
   </article>
