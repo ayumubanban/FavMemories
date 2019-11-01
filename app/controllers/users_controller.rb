@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
   before_action :authenticate_user, {only: [ :edit, :update, :likes, :follows, :followers]}
-  before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
+  before_action :forbid_login_user, {only: [:new, :create, :login_form, :login, :login_sns]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
   def index
