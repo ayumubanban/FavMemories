@@ -6,6 +6,8 @@
     <% if @user.avatar.attached? %>
       <%# Magnific Popupでクリックしたらポップアップ画像が表示されるようにした %>
       <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+    <% elsif @user.image %>
+      <%= image_tag @user.image, class: "is-rounded" %>
     <% else %>
       <img src="/blue_egg.jpg" class="is-rounded">
     <% end %>

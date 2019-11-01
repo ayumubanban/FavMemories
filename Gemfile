@@ -67,3 +67,6 @@ gem "aws-sdk-s3", require: false
 
 # ajax導入のため
 gem 'jquery-rails'
+
+gem 'omniauth-google-oauth2'
+gem 'omniauth-github'

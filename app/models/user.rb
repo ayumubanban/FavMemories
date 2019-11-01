@@ -30,6 +30,25 @@ class User < ApplicationRecord
     passive_relationships.find_by(following_id: user.id).present?
   end
 
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      # * 名前の変更を反映
+      if user.name == nil
+        user.name = auth.info.name
+      end
+      user.email = auth.info.email
+      user.password = SecureRandom.urlsafe_base64(n=6)
+      user.image = auth.info.image
+      user.oauth_token = auth.credentials.token
+      if auth.credentials.expires_at
+        user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      end
+      return user
+    end
+  end
+
 
   # * user has many postsっていう1対多の関係を自分らでメソッド定義して表してる
   # def posts

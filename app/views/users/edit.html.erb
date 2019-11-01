@@ -19,11 +19,13 @@
             <%= form.file_field :avatar, class: "", id: "book_img" %>
             現在の画像
             <%#= image_tag @user.avatar, id: "img_prev" if @user.avatar.attached? %>
-            <%# 画像プレビュー機能あり %>
+            <%# 画像プレビュー機能あり 1101 img_prevをidからclassに変え、複数つけた %>
             <% if @user.avatar.attached? %>
-              <%= image_tag @user.avatar, class: "is-rounded", id: "img_prev" %>
+              <%= image_tag @user.avatar, class: "is-rounded img_prev", id: "" %>
+            <% elsif @user.image %>
+              <%= image_tag @user.image, class: "is-rounded img_prev" %>
             <% else %>
-              <img src="/blue_egg.jpg" class="is-rounded">
+              <img src="/blue_egg.jpg" class="is-rounded img_prev">
             <% end %>
             <%= form.submit "保存", class: "button is-primary" %>
           <% end %>
