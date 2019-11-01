@@ -5,6 +5,8 @@
       <p class="image is-96x96">
         <% if user.avatar.attached? %>
           <%= image_tag user.avatar, class: "is-rounded" %>
+        <% elsif user.image %>
+          <%= image_tag user.image, class: "is-rounded" %>
         <% else %>
           <img src="/blue_egg.jpg" class="is-rounded">
         <% end %>

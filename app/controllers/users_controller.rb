@@ -79,6 +79,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def login_sns
+    user = User.from_omniauth(request.env["omniauth.auth"])
+    if user.save
+      session[:user_id] = user.id
+      flash[:notice] = "ログインしました"
+      redirect_to ("/posts")
+    else
+      redirect_to ("/login")
+    end
+  end
+
   def logout
     session[:user_id] = nil
     flash[:notice] = "ログアウトしました"

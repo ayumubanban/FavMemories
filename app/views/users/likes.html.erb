@@ -2,12 +2,14 @@
   <figure class="image is-128x128 margin-x-auto">
     <% if @user.avatar.attached? %>
       <%= image_tag @user.avatar, class: "is-rounded" %>
+    <% elsif @user.image %>
+      <%= image_tag @user.image, class: "is-rounded" %>
     <% else %>
       <img src="/blue_egg.jpg" class="is-rounded">
     <% end %>
   </figure>
   <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
-  <p><%= @user.email %></p>
+  <p><%#= @user.email %></p>
   <% if @user.id == @current_user.id %>
     <%= link_to("編集", "/users/#{@user.id}/edit", class: "has-text-grey") %>
   <% end %>
@@ -34,6 +36,8 @@
         <p class="image is-96x96">
           <% if post.user.avatar.attached? %>
             <%= image_tag post.user.avatar, class: "is-rounded" %>
+          <% elsif post.user.image %>
+            <%= image_tag post.user.image, class: "is-rounded" %>
           <% else %>
             <img src="/blue_egg.jpg" class="is-rounded">
           <% end %>

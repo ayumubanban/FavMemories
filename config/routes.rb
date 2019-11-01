@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   delete "users/:user_id/relationships" => "relationships#destroy"
   get "users/:id/follows" => "users#follows"
   get "users/:id/followers" => "users#followers"
+  # * oauth google&github
+  get 'auth/:provider/callback', to: 'users#login_sns'
+  get 'auth/failure', to: redirect('/')
 
   # * posts
   # get 'posts/index' => "posts#index"
