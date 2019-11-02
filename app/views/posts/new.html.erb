@@ -10,6 +10,8 @@
   <%= form_with model: @post, url: "/posts", local: true do |form| %>
     <%= form.label :content, "投稿内容" %>
     <%= form.text_area :content, value: @post.content, class: "" %>
+    <%= form.label :photo, "投稿画像(任意)" %>
+    <%= form.file_field :photo, class: "" %>
     <%= form.submit "投稿", class: "button is-primary" %>
   <% end %>
 

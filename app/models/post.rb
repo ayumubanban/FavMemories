@@ -17,6 +17,9 @@ class Post < ApplicationRecord
   #   return User.find_by(id: self.user_id)
   # end
 
+  # * プロフィール画像
+  has_one_attached :photo
+
   # * ツイートがいいねされているかどうか
   def liked_by?(user)
     likes.where(user_id: user.id).exists?

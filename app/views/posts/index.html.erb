@@ -19,6 +19,10 @@
           <strong><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></strong>
           <br>
           <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
+          <% if post.photo.attached? %>
+            <%= link_to image_tag(post.photo, class: "is-rounded"), post.photo, class: "popup-link" %>
+            <%#= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+          <% end %>
         </p>
       </div>
 

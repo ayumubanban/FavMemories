@@ -15,6 +15,10 @@
   <%= link_to @user.name, "/users/#{@user.id}" %>
 
   <p><%= @post.content %></p>
+  <% if @post.photo.attached? %>
+    <%= link_to image_tag(@post.photo, class: "is-rounded"), @post.photo, class: "popup-link" %>
+    <%#= image_tag @post.photo, class: "is-rounded" %>
+  <% end %>
   <div class="post-time">
     <%= @post.created_at %>
   </div>
