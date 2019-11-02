@@ -1,0 +1,33 @@
+<div class="box">
+  <% comments.each do |comment| %>
+
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <% if comment.user.avatar.attached? %>
+            <%= image_tag comment.user.avatar, class: "is-rounded" %>
+          <% else %>
+            <img src="/blue_egg.jpg" class="is-rounded">
+          <% end %>
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= link_to(comment.user.name, "/users/#{comment.user.id}", class: "has-text-black") %></strong>
+            <br>
+            <%= comment.content %>
+          </p>
+        </div>
+
+        <%# ログインしてる？ %>
+        <%# if @current_user %>
+          <% if comment.user == @current_user %>
+            <%= link_to "削除", "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, remote: true %>
+          <% end %>
+        <%# end %>
+      </div>
+    </article>
+
+  <% end %>
+</div>

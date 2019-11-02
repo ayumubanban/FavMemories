@@ -5,9 +5,13 @@ class CommentsController < ApplicationController
     @post = Post.find_by(id: params[:post_id])
     @comment = @current_user.comments.build(comment_params)
     @comment.post_id = @post.id
-    @comment.save
-    redirect_to("/posts/#{@post.id}")
-    # redirect_to request.referrer
+    if @comment.save
+      render :index
+    else
+      flash[:danger] = "コメントは1文字〜〇〇文字以内でお願いします"
+      redirect_to request.referrer
+    end
+    # redirect_to("/posts/#{@post.id}")
   end
 
   def destroy
@@ -16,14 +20,16 @@ class CommentsController < ApplicationController
       post_id: params[:post_id],
       id: params[:id]
     )
-    if @comment
+    # if @comment && @current_user == @comment.user
+    if @current_user == @comment.user
       @comment.destroy
-      redirect_to("/posts/#{params[:post_id]}")
+      render :index
+      # redirect_to("/posts/#{params[:post_id]}")
     else
+      # * 既にbefore_actionあるのに、これは微妙<-そんなことなし
       flash[:notice] =  "権限がありません"
       redirect_to("/posts")
     end
-    # redirect_to request.referrer
   end
 
   private
