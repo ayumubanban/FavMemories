@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   # before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
-  before_action :authenticate_user, {only: [ :edit, :update, :likes, :follows, :followers]}
+  before_action :authenticate_user, {only: [ :edit, :update, :likes, :follows, :followers, :destroy]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login, :login_sns]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
@@ -57,11 +57,15 @@ class UsersController < ApplicationController
     end
   end
 
-  def delete
+  # *　管理者ユーザー
+  def destroy
     user = User.find_by(id: params[:id])
-    user.destroy
-    flash[:notice] = "ユーザーを削除しました"
-    # redirect_to("/posts/index")
+    if @current_user.admin? && !(@current_user == user)
+      user.destroy
+      flash[:notice] = "ユーザーを削除しました"
+    else
+      flash[:notice] = "権限がありません"
+    end
     redirect_to("/users")
   end
 
