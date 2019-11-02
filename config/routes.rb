@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post "users" => "users#create"
   get "users/:id/edit" => "users#edit"
   put "users/:id" => "users#update"
-  delete "users/:id" => "users#delete"
+  delete "users/:id" => "users#destroy"
   # * users / likes
   get "users/:id/likes" => "users#likes"
   # * users / relationships
