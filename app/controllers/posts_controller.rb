@@ -31,6 +31,10 @@ class PostsController < ApplicationController
       content: params[:post][:content],
       user_id: @current_user.id
     )
+    # * 画像の選択は任意
+    if photo = params[:post][:photo]
+      @post.photo.attach(photo)
+    end
     if @post.save
       flash[:notice] = "投稿を作成しました"
       # redirect_to("/posts/index")
@@ -47,6 +51,10 @@ class PostsController < ApplicationController
   def update
     @post = Post.find_by(id: params[:id])
     @post.content = params[:post][:content]
+    # * 画像の選択は任意
+    if photo = params[:post][:photo]
+      @post.photo.attach(photo)
+    end
     if @post.save
       flash[:notice] = "投稿を編集しました"
       # redirect_to("/posts/index")
