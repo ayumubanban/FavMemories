@@ -58,6 +58,11 @@
         <%= flash[:notice] %>
       </div>
     <% end %>
+    <% if flash[:danger] %>
+      <div class="flash padding-y-3 has-text-centered has-background-danger has-text-white">
+        <%= flash[:danger] %>
+      </div>
+    <% end %>
     <%= yield %>
 
     <!-- jQuery -->
@@ -69,6 +74,16 @@
       // 画像がクリックされた時にポップアップの表示
       $('.popup-link').magnificPopup({
         type: 'image'
+      });
+      $(function(){
+        $("#input-text").on("keyup", function() {
+          let countNum = String($(this).val().length);
+          if (countNum <= 140){
+            $("#counter").text(countNum + " / 140文字");
+          } else {
+            $("#counter").text("制限文字数を超えています").css("color","red");
+          }
+        });
       });
       // 画像を選択した際のプレビュー機能
       $(function() {

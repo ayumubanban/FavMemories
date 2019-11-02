@@ -1,0 +1,8 @@
+<%= form_with model: [post, comment], url: "/posts/#{post.id}/comments" do |form| %>
+  <p>
+    <%= form.label :content, "コメント" %>
+    <%= form.text_area :content, id: "input-text" %>
+  </p>
+  <p id="counter"></p>
+  <%= form.submit %>
+<% end %>
