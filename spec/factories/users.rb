@@ -11,6 +11,15 @@ FactoryBot.define do
     end
   end
 
+  factory :other_user, class: User do
+    # name {"hoge"}
+    # email {"hoge@example.com"}
+    sequence(:name) { |n| "OtherTestUser#{n}" }
+    sequence(:email) { |n| "OtherTest#{n}@example.com" }
+    password {"otherhogehoge"}
+
+  end
+
   factory :takashi, class: User do
     name {"Takashi"}
     email {"takashi@example.com"}
