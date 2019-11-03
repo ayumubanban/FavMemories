@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 def signup_user
-  post "/users/create", params: { user: FactoryBot.attributes_for(:user) }
+  post "/users", params: { user: FactoryBot.attributes_for(:user) }
 end
 
 RSpec.describe UsersController, type: :request do
@@ -39,10 +39,10 @@ RSpec.describe UsersController, type: :request do
       end
     end
 
-    describe "POST users#logout" do
+    describe "DELETE users#logout" do
       it "ログアウトできる" do
         # ! delete
-        post "/logout"
+        delete "/logout"
         expect(is_logged_in?).to be_falsey
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe UsersController, type: :request do
     describe "POST users#login" do
       it "ログインが成功する" do
         # ! delete
-        post "/logout"
+        delete "/logout"
 
         # * ストロングパラメータなし
         post "/login", params: {
@@ -67,7 +67,7 @@ RSpec.describe UsersController, type: :request do
       it "リクエストが成功すること" do
         # * =====signup(login)処理=====
         # * ==========================
-        get "/users/index"
+        get "/users"
         expect(response.status).to eq 200
       end
 
@@ -80,7 +80,7 @@ RSpec.describe UsersController, type: :request do
         # * =====signup(login)処理=====
         # * ==========================
 
-        get "/users/index"
+        get "/users"
         # "User.last.id-1は"
         # puts (User.last.id)-1
         # "User全員"
@@ -131,12 +131,14 @@ RSpec.describe UsersController, type: :request do
 
     end
 
-    describe "POST users#update" do
+    describe "PUT users#update" do
       context "パラメータが妥当な場合" do
         it "リクエストが成功すること" do
           # ! ストロングパラメータにした方がいい
-          post "/users/#{User.last.id}/update", params: {
-            name: "hogege", email: "hoge@hoge.com"
+          put "/users/#{User.last.id}", params: {
+            user: {
+              name: "hogege", email: "hoge@hoge.com"
+            }
           }
           expect(response.status).to eq 302
         end
@@ -144,15 +146,19 @@ RSpec.describe UsersController, type: :request do
         it "ユーザー名が更新されること" do
           # ! ストロングパラメータにした方がいい
           expect do
-            post "/users/#{User.last.id}/update", params: {
-              name: "hogege", email: "hoge@hoge.com"
+            put "/users/#{User.last.id}", params: {
+              user: {
+                name: "hogege", email: "hoge@hoge.com"
+              }
             }
           end.to change { User.find(User.last.id).name }.from("TestUser#{User.last.id}").to("hogege")
         end
 
         it "リダイレクトすること" do
-          post "/users/#{User.last.id}/update", params: {
-            name: "hogege", email: "hoge@hoge.com"
+          put "/users/#{User.last.id}", params: {
+            user: {
+              name: "hogege", email: "hoge@hoge.com"
+            }
           }
           expect(response).to redirect_to "/users/#{User.last.id}"
         end
@@ -161,8 +167,10 @@ RSpec.describe UsersController, type: :request do
       context "パラメータが不正な場合" do
         it "リクエストが成功すること" do
           # ! ストロングパラメータにした方がいい
-          post "/users/#{User.last.id}/update", params: {
-            name: "", email: "hoge@hoge.com"
+          put "/users/#{User.last.id}", params: {
+            user: {
+              name: "", email: "hoge@hoge.com"
+            }
           }
           expect(response.status).to eq 200
         end
@@ -170,8 +178,10 @@ RSpec.describe UsersController, type: :request do
         it "ユーザー名が変更されないこと" do
           # ! ストロングパラメータにした方がいい
           expect do
-            post "/users/#{User.last.id}/update", params: {
-              name: "", email: "hoge@hoge.com"
+            put "/users/#{User.last.id}", params: {
+              user: {
+                name: "", email: "hoge@hoge.com"
+              }
             }
           end.to_not change(User.find(User.last.id), :name)
         end
@@ -189,7 +199,7 @@ RSpec.describe UsersController, type: :request do
 
     end
 
-    describe "POST relationships#destroy" do
+    describe "DELETE relationships#destroy" do
 
     end
 
