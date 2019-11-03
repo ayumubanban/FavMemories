@@ -22,13 +22,13 @@ FactoryBot.define do
 
   factory :takashi, class: User do
     name {"Takashi"}
-    email {"takashi@example.com"}
+    sequence(:email) { |n| "takashi#{n}@example.com" }
     password {"takashi"}
   end
 
   factory :satoshi, class: User do
     name {"Satoshi"}
-    email {"satoshi@example.com"}
+    sequence(:email) { |n| "satoshi#{n}@example.com" }
     password {"satoshi"}
   end
 end
