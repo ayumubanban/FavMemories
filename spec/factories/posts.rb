@@ -11,6 +11,11 @@ FactoryBot.define do
     # user_id {100}
   end
 
+  factory :grape, class: Post do
+    content {"Grape"}
+    # user_id {100}
+  end
+
   factory :invalid, class: Post do
     content {""}
     # user_id {100}

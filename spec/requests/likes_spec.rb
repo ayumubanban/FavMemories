@@ -1,15 +1,22 @@
 require 'rails_helper'
 
 def login_user
-  like = FactoryBot.create(:like)
+  # like = FactoryBot.create(:like)
+
+  # post "/login", params: {
+  #   email: like.user.email,
+  #   password: like.user.password
+  # }
+
+  @takashi = FactoryBot.create(:takashi)
 
   post "/login", params: {
-    email: like.user.email,
-    password: like.user.password
+    email: @takashi.email,
+    password: @takashi.password
   }
 
-  puts "post_idは#{like.post_id}"
-  puts "user_idは#{like.user_id}"
+  # puts "post_idは#{like.post_id}"
+  # puts "user_idは#{like.user_id}"
   # puts like.user.inspect
   # puts is_logged_in?
 end
@@ -24,11 +31,12 @@ RSpec.describe "Likes", type: :request do
   context "ログインしている場合" do
     before do
       login_user
+      @apple = FactoryBot.create(:apple, user: @takashi)
     end
 
     describe "POST likes#create with Ajax" do
       it "リクエストが成功すること" do
-        post "/posts/#{Post.last.id}/likes", xhr: true
+        post "/posts/#{@apple.id}/likes", xhr: true
         expect(response.status).to eq 200
       end
 
@@ -38,14 +46,24 @@ RSpec.describe "Likes", type: :request do
           #   post_id: Post.last.id,
           #   user_id: User.last.id
           # }
-          post "/posts/#{Post.last.id}/likes", xhr: true
+          post "/posts/#{@apple.id}/likes", xhr: true
         end.to change(Like, :count).by(1)
+      end
+
+      it "いいね一覧に表示されること" do
+        post "/posts/#{@apple.id}/likes", xhr: true
+        get "/users/#{@takashi.id}/likes"
+        expect(response.body).to include "Apple"
       end
     end
 
     describe "DELETE likes#destroy with Ajax" do
+      before do
+        # * 先にいいねしておく
+        post "/posts/#{@apple.id}/likes", xhr: true
+      end
       it "リクエストが成功すること" do
-        delete "/posts/#{Post.last.id}/likes", xhr: true
+        delete "/posts/#{@apple.id}/likes", xhr: true
         expect(response.status).to eq 200
       end
 
@@ -55,7 +73,7 @@ RSpec.describe "Likes", type: :request do
           #   post_id: Post.last.id,
           #   user_id: User.last.id
           # }
-          delete "/posts/#{Post.last.id}/likes", xhr: true
+          delete "/posts/#{@apple.id}/likes", xhr: true
         end.to change(Like, :count).by(-1)
       end
     end

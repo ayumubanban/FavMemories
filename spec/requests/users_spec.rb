@@ -3,6 +3,13 @@ require 'rails_helper'
 def signup_user
   post "/users", params: { user: FactoryBot.attributes_for(:user) }
 end
+def login_user
+  @takashi = FactoryBot.create(:takashi)
+  post "/login", params: {
+    email: @takashi.email,
+    password: @takashi.password
+  }
+end
 
 RSpec.describe UsersController, type: :request do
   context "ログインしていない場合" do
@@ -28,16 +35,17 @@ RSpec.describe UsersController, type: :request do
   context "ログインしている場合" do
 
     before do
-      signup_user
-      puts "Userのid: #{User.last.id}"
+      # signup_user
+      login_user
+      # puts "Userのid: #{User.last.id}"
     end
 
-    describe "POST users#create" do
-      it "user IDがセッションに保存されている" do
-        expect(session[:user_id]).to eq User.last.id
-        expect(is_logged_in?).to be_truthy
-      end
-    end
+    # describe "POST users#create" do
+    #   it "user IDがセッションに保存されている" do
+    #     expect(session[:user_id]).to eq User.last.id
+    #     expect(is_logged_in?).to be_truthy
+    #   end
+    # end
 
     describe "DELETE users#logout" do
       it "ログアウトできる" do
@@ -48,21 +56,24 @@ RSpec.describe UsersController, type: :request do
     end
 
     # ? ログインできてるかどうか自体をテスト。これそもそも存在させようかどうか迷う。
-    describe "POST users#login" do
-      it "ログインが成功する" do
-        # ! delete
-        delete "/logout"
+    # describe "POST users#login" do
+    #   it "ログインが成功する" do
+    #     # ! delete
+    #     delete "/logout"
 
-        # * ストロングパラメータなし
-        post "/login", params: {
-          email: "Test#{User.last.id}@example.com",
-          password: "hogehoge"
-        }
-        expect(is_logged_in?).to be_truthy
-      end
-    end
+    #     # * ストロングパラメータなし
+    #     post "/login", params: {
+    #       email: "Test#{User.last.id}@example.com",
+    #       password: "hogehoge"
+    #     }
+    #     expect(is_logged_in?).to be_truthy
+    #   end
+    # end
 
     describe "GET users#index" do
+      before do
+        @satoshi = FactoryBot.create(:satoshi)
+      end
 
       it "リクエストが成功すること" do
         # * =====signup(login)処理=====
@@ -72,10 +83,10 @@ RSpec.describe UsersController, type: :request do
       end
 
       # * こっちのが遅い。まぁ当たり前やけど
-      before do
-        FactoryBot.create :user
-        puts "beforeのUser.idは#{User.last.id}"
-      end
+      # before do
+      #   FactoryBot.create :user
+      #   puts "beforeのUser.idは#{User.last.id}"
+      # end
       it "ユーザー名が表示されていること" do
         # * =====signup(login)処理=====
         # * ==========================
@@ -86,8 +97,10 @@ RSpec.describe UsersController, type: :request do
         # "User全員"
         # puts User.all.inspect
 
-        expect(response.body).to include "TestUser#{User.last.id}"
-        expect(response.body).to include "TestUser#{(User.last.id)-1}"
+        # expect(response.body).to include "TestUser#{User.last.id}"
+        # expect(response.body).to include "TestUser#{(User.last.id)-1}"
+        expect(response.body).to include "Takashi"
+        expect(response.body).to include "Satoshi"
       end
 
     end
@@ -98,15 +111,16 @@ RSpec.describe UsersController, type: :request do
         it "リクエストが成功すること" do
           # # * =====signup(login)処理=====
           # # * ==========================
-          get "/users/#{User.last.id}"
+          get "/users/#{@takashi.id}"
           expect(response.status).to eq 200
         end
 
         it "ユーザー名が表示されていること" do
           # # * =====signup(login)処理=====
           # # * ==========================
-          get "/users/#{User.last.id}"
-          expect(response.body).to include("TestUser#{User.last.id}")
+          get "/users/#{@takashi.id}"
+          # expect(response.body).to include("TestUser#{User.last.id}")
+          expect(response.body).to include("Takashi")
         end
       end
     end
@@ -114,28 +128,27 @@ RSpec.describe UsersController, type: :request do
     describe "GET users#edit" do
 
       it "リクエストが成功すること" do
-        get "/users/#{User.last.id}/edit"
+        get "/users/#{@takashi.id}/edit"
         expect(response.status).to eq 200
       end
 
       it "ユーザー名が表示されていること" do
-        get "/users/#{User.last.id}/edit"
-        expect(response.body).to include "TestUser#{User.last.id}"
+        get "/users/#{@takashi.id}/edit"
+        expect(response.body).to include "Takashi"
       end
 
-      it "メールアドレスが表示されていること" do
-        get "/users/#{User.last.id}/edit"
-        p User.last.id
-        expect(response.body).to include "Test#{User.last.id}@example.com"
-      end
+      # it "メールアドレスが表示されていること" do
+      #   get "/users/#{@takashi.id}/edit"
+      #   # p User.last.id
+      #   expect(response.body).to include "takashi#{@takashi.id}@example.com"
+      # end
 
     end
 
     describe "PUT users#update" do
       context "パラメータが妥当な場合" do
         it "リクエストが成功すること" do
-          # ! ストロングパラメータにした方がいい
-          put "/users/#{User.last.id}", params: {
+          put "/users/#{@takashi.id}", params: {
             user: {
               name: "hogege", email: "hoge@hoge.com"
             }
@@ -144,30 +157,28 @@ RSpec.describe UsersController, type: :request do
         end
 
         it "ユーザー名が更新されること" do
-          # ! ストロングパラメータにした方がいい
           expect do
-            put "/users/#{User.last.id}", params: {
+            put "/users/#{@takashi.id}", params: {
               user: {
                 name: "hogege", email: "hoge@hoge.com"
               }
             }
-          end.to change { User.find(User.last.id).name }.from("TestUser#{User.last.id}").to("hogege")
+          end.to change { User.find(@takashi.id).name }.from("Takashi").to("hogege")
         end
 
         it "リダイレクトすること" do
-          put "/users/#{User.last.id}", params: {
+          put "/users/#{@takashi.id}", params: {
             user: {
               name: "hogege", email: "hoge@hoge.com"
             }
           }
-          expect(response).to redirect_to "/users/#{User.last.id}"
+          expect(response).to redirect_to "/users/#{@takashi.id}"
         end
       end
 
       context "パラメータが不正な場合" do
         it "リクエストが成功すること" do
-          # ! ストロングパラメータにした方がいい
-          put "/users/#{User.last.id}", params: {
+          put "/users/#{@takashi.id}", params: {
             user: {
               name: "", email: "hoge@hoge.com"
             }
@@ -176,21 +187,20 @@ RSpec.describe UsersController, type: :request do
         end
 
         it "ユーザー名が変更されないこと" do
-          # ! ストロングパラメータにした方がいい
           expect do
-            put "/users/#{User.last.id}", params: {
+            put "/users/#{@takashi.id}", params: {
               user: {
                 name: "", email: "hoge@hoge.com"
               }
             }
-          end.to_not change(User.find(User.last.id), :name)
+          end.to_not change(User.find(@takashi.id), :name)
         end
       end
     end
 
     describe "GET users#likes" do
       it "リクエストが成功すること" do
-        get "/users/#{User.last.id}/likes"
+        get "/users/#{@takashi.id}/likes"
         expect(response.status).to eq 200
       end
     end
@@ -205,14 +215,14 @@ RSpec.describe UsersController, type: :request do
 
     describe "GET users#follows" do
       it "リクエストが成功すること" do
-        get "/users/#{User.last.id}/follows"
+        get "/users/#{@takashi.id}/follows"
         expect(response.status).to eq 200
       end
     end
 
     describe "GET users#followers" do
       it "リクエストが成功すること" do
-        get "/users/#{User.last.id}/followers"
+        get "/users/#{@takashi.id}/followers"
         expect(response.status).to eq 200
       end
     end
