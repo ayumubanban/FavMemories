@@ -38,9 +38,7 @@
           <%= link_to("投稿一覧", "/posts", class: "has-text-white margin-x-1") %>
           <%= link_to("新規投稿", "/posts/new", class: "has-text-white margin-x-1") %>
           <%= link_to("ユーザー一覧", "/users", class: "has-text-white margin-x-1") %>
-          <span class=" margin-x-1">
-            <%= link_to("ログアウト", "/logout", {method: :delete}) %>
-          </span>
+          <%= link_to("ログアウト", "/logout", method: :delete, class: "has-text-white margin-x-1") %>
         <% else %>
           <%# これどうしよう。ログイン時も表示させるか迷うなぁ %>
           <%= link_to("TweetAppとは", "/about", class: "has-text-white margin-x-1") %>

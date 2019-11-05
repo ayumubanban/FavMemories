@@ -2,8 +2,9 @@ class PostsController < ApplicationController
   before_action :authenticate_user, except: [:index, :show]
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
 
+  PER = 3
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts = Post.all.order(created_at: :desc).page(params[:page]).per(PER)
   end
 
   def show

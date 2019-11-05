@@ -1,4 +1,4 @@
-<div class="box">
+<% if comments.count != 0 %>
   <% comments.each do |comment| %>
 
     <article class="media">
@@ -30,4 +30,6 @@
     </article>
 
   <% end %>
-</div>
+<% else %>
+  <p>現在コメントはありません</p>
+<% end %>

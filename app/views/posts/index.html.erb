@@ -1,43 +1,65 @@
+
+
+<div class="section">
+<div class="columns is-multiline">
 <% @posts.each do |post| %>
-  <article class="media">
-    <figure class="media-left">
-      <p class="image is-96x96">
-
-        <% if post.user.avatar.attached? %>
-          <%= image_tag post.user.avatar, class: "is-rounded" %>
-        <% elsif post.user.image %>
-          <%= image_tag post.user.image, class: "is-rounded" %>
-        <% else %>
-          <img src="/blue_egg.jpg" class="is-rounded">
-        <% end %>
-
-      </p>
-    </figure>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></strong>
-          <br>
-          <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
+  <div class="column is-4">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-3by1">
+        <%# 投稿画像があればそれを表示 %>
           <% if post.photo.attached? %>
-            <%= link_to image_tag(post.photo, class: "is-rounded"), post.photo, class: "popup-link" %>
-            <%#= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+            <%= link_to image_tag(post.photo), "/posts/#{post.id}" %>
+          <% else %>
+            <%= link_to image_tag("/baloon.jpg"), "/posts/#{post.id}" %>
           <% end %>
-        </p>
+        </figure>
       </div>
-
-      <nav class="level is-mobile">
-        <div class="level-left">
-          <%# リンクにせんでもええかなと思い、aタグを外した←いや、とりまリンクにしといて、コメント投稿用のモーダルを表示されられるといいよね %>
-          <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
-
-          <%# いいね ajax %>
-          <div id="likes_buttons_<%= post.id %>">
-            <%= render partial: 'likes/like', locals: { post: post } %>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <%# ユーザー画像あればそれを、なければ青卵を表示 %>
+              <% if post.user.avatar.attached? %>
+                <%= link_to image_tag(post.user.avatar, class: "is-rounded"), "/users/#{post.user.id}" %>
+                <%#= image_tag post.user.avatar, class: "is-rounded" %>
+              <% elsif post.user.image %>
+                <%= link_to image_tag(post.user.image, class: "is-rounded"), "/users/#{post.user.id}" %>
+                <%#= image_tag post.user.image, class: "is-rounded" %>
+              <% else %>
+                <%= link_to image_tag("/blue_egg.jpg", class: "is-rounded"), "/users/#{post.user.id}" %>
+              <% end %>
+            </figure>
           </div>
-
+          <div class="media-content">
+            <%# ユーザー名 %>
+            <p class="title is-4"><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></p>
+          </div>
         </div>
-      </nav>
+        <div class="content" style="word-wrap: break-word;">
+          <%# 文字サイズ変えてみて、改行されるようなら最大文字を変えよう %>
+          <%= link_to(truncate(post.content, length: 27, separator: " "), "/posts/#{post.id}", class: "has-text-dark") %>
+          <%#= post.content %>
+          <br>
+          <%# この時間を、投稿からの経過時間に変えたい %>
+          <time><%= time_ago_in_words(post.created_at) %></time>
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <%# リンクにせんでもええかなと思い、aタグを外した←いや、とりまリンクにしといて、コメント投稿用のモーダルを表示されられるといいよね %>
+            <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
+
+            <%# いいね ajax %>
+            <div id="likes_buttons_<%= post.id %>">
+              <%= render partial: 'likes/like', locals: { post: post } %>
+            </div>
+
+          </div>
+        </nav>
+      </div>
     </div>
-  </article>
+  </div>
 <% end %>
+</div>
+<%= paginate @posts %>
+</div>
