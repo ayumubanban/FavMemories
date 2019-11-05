@@ -10,7 +10,7 @@
     <%= form_with model: @post, url: "/posts/#{@post.id}", method: :put, local: true do |form| %>
       <%= form.label :content, "投稿内容" %>
       <%= form.text_area :content, value: @post.content, class: "" %>
-      <%= form.label :photo, "プロフィール画像(任意)" %>
+      <%= form.label :photo, "投稿画像(任意)" %>
       <%= form.file_field :photo, class: "", id: "book_img" %>
       現在の画像
       <%#= image_tag @user.avatar, id: "img_prev" if @user.avatar.attached? %>
