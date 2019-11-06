@@ -2,12 +2,14 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Myapp</title>
+    <title>FavMemories</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= favicon_link_tag('favicon.ico') %>
 
     <!-- Magnific Popup -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
@@ -20,36 +22,78 @@
 
   <body>
     <header>
-    <nav class="is-flex padding-x-3 has-background-primary padding-y-3">
-      <div class="">
+
+    <%# navbarの色、ログインしてるかしてないかで変えようかなぁ！？ <-なし %>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
         <% if @current_user %>
-          <%#= link_to "TweetApp", "/posts/index", class: "has-text-white has-text-weight-bold" %>
-          <%= link_to "TweetApp", "/posts", class: "has-text-white has-text-weight-bold" %>
+          <%#= link_to "FavMemories", "/posts", class: " has-text-weight-bold navbar-item is-size-4" %>
+          <%= link_to "/posts", class: "  navbar-item " do %>
+            <%= image_tag '/star.png' %>
+            <p class="has-text-weight-bold is-size-4">FavMemories</p>
+            <%= image_tag '/star.png' %>
+          <% end %>
         <% else %>
-          <%= link_to("TweetApp", "/", class: "has-text-white has-text-weight-bold" ) %>
+          <%#= link_to("FavMemories", "/", class: "has-text-weight-bold navbar-item is-size-4" ) %>
+          <%= link_to "/", class: "  navbar-item " do %>
+            <%= image_tag '/star.png' %>
+            <p class="has-text-weight-bold is-size-4">FavMemories</p>
+            <%= image_tag '/star.png' %>
+          <% end %>
         <% end %>
+        <a role="button" class="navbar-burger burger " aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
 
-      <div class="margin-left-auto">
-        <%# ログインしてる？ %>
-        <% if @current_user %>
-          <%= link_to @current_user.name, "/users/#{@current_user.id}", class: "has-text-white margin-x-1" %>
-          <%#= link_to("投稿一覧", "/posts/index", class: "has-text-white margin-x-1") %>
-          <%= link_to("投稿一覧", "/posts", class: "has-text-white margin-x-1") %>
-          <%= link_to("新規投稿", "/posts/new", class: "has-text-white margin-x-1") %>
-          <%= link_to("ユーザー一覧", "/users", class: "has-text-white margin-x-1") %>
-          <%= link_to("ログアウト", "/logout", method: :delete, class: "has-text-white margin-x-1") %>
-        <% else %>
-          <%# これどうしよう。ログイン時も表示させるか迷うなぁ %>
-          <%= link_to("TweetAppとは", "/about", class: "has-text-white margin-x-1") %>
-          <%= link_to("投稿一覧", "/posts", class: "has-text-white margin-x-1") %>
-          <%= link_to("ユーザー一覧", "/users", class: "has-text-white margin-x-1") %>
-          <%= link_to("新規登録", "/signup", class: "has-text-white margin-x-1") %>
-          <%= link_to("ログイン", "/login", class: "has-text-white margin-x-1") %>
-        <% end %>
-      </div>
+      <div id="navbarBasic" class="navbar-menu">
+        <div class="navbar-start">
+        </div>
 
+        <div class="navbar-end">
+          <%# ログインしてる？ %>
+          <% if @current_user %>
+            <%= link_to "/users/#{@current_user.id}", class: "navbar-item" do %>
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-24x24">
+                    <% if @current_user.avatar.attached? %>
+                      <%= image_tag @current_user.avatar, class: "is-rounded" %>
+                    <% elsif @current_user.image %>
+                      <%= image_tag @current_user.image, class: "is-rounded" %>
+                    <% else %>
+                      <img src="/blue_egg.jpg" class="is-rounded">
+                    <% end %>
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <%= @current_user.name %>
+                    <%#= link_to @current_user.name, "/users/#{@current_user.id}", class: "" %>
+                  </div>
+                </div>
+              </article>
+            <% end %>
+            <%= link_to("投稿一覧", "/posts", class: " margin-x-1 navbar-item") %>
+            <%= link_to("新規投稿", "/posts/new", class: " margin-x-1 navbar-item") %>
+            <%= link_to("ユーザー一覧", "/users", class: " margin-x-1 navbar-item") %>
+            <%= link_to("FavMemoriesとは", "/about", class: " margin-x-1 navbar-item") %>
+            <%= link_to("ログアウト", "/logout", method: :delete, class: " margin-x-1 navbar-item") %>
+          <% else %>
+            <%= link_to("FavMemoriesとは", "/about", class: " margin-x-1 navbar-item") %>
+            <%= link_to("投稿一覧", "/posts", class: " margin-x-1 navbar-item") %>
+            <%= link_to("ユーザー一覧", "/users", class: " margin-x-1 navbar-item") %>
+            <%= link_to("新規登録", "/signup", class: " margin-x-1 navbar-item") %>
+            <%= link_to("ログイン", "/login", class: " margin-x-1 navbar-item") %>
+          <% end %>
+        </div>
+
+      </div>
     </nav>
+
+
     </header>
     <% if flash[:notice] %>
       <div class="flash padding-y-3 has-text-centered has-background-orange has-text-white">
@@ -97,6 +141,14 @@
         $("#book_img").change(function(){
           readURL(this);
         });
+      });
+      // Check for click events on the navbar burger icon
+      $(".navbar-burger").click(function() {
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          $(".navbar-burger").toggleClass("is-active");
+          $(".navbar-menu").toggleClass("is-active");
+
       });
     </script>
 
