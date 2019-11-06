@@ -1,9 +1,11 @@
 class User < ApplicationRecord
   has_secure_password  # * passwordがあるかどうか自動的にチェックしてくれる
+  # * これやっちゃうとユーザー編集にパスワードを求められちゃってユーザーフレンドリーじゃなくなっちゃうので、いいや。
+  # validates :password, length: { minimum: 6 }
+  # validates :password, presence: true, length: { minimum: 6 }
 
   validates :name, { presence: true, length: { maximum: 20 } }
   validates :email, { presence: true, uniqueness: true }
-  # validates :password, { presence: true }
 
   # * 投稿
   has_many :posts, dependent: :destroy

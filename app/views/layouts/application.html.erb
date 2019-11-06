@@ -55,26 +55,17 @@
         <div class="navbar-end">
           <%# ログインしてる？ %>
           <% if @current_user %>
-            <%= link_to "/users/#{@current_user.id}", class: "navbar-item" do %>
-              <article class="media">
-                <figure class="media-left">
-                  <p class="image is-24x24">
-                    <% if @current_user.avatar.attached? %>
-                      <%= image_tag @current_user.avatar, class: "is-rounded" %>
-                    <% elsif @current_user.image %>
-                      <%= image_tag @current_user.image, class: "is-rounded" %>
-                    <% else %>
-                      <img src="/blue_egg.jpg" class="is-rounded">
-                    <% end %>
-                  </p>
-                </figure>
-                <div class="media-content">
-                  <div class="content">
-                    <%= @current_user.name %>
-                    <%#= link_to @current_user.name, "/users/#{@current_user.id}", class: "" %>
-                  </div>
-                </div>
-              </article>
+            <%= link_to "/users/#{@current_user.id}", class: "navbar-item is-flex" do %>
+              <figure class="image is-24x24">
+                <% if @current_user.avatar.attached? %>
+                  <%= image_tag @current_user.avatar, class: "is-rounded" %>
+                <% elsif @current_user.image %>
+                  <%= image_tag @current_user.image, class: "is-rounded" %>
+                <% else %>
+                  <img src="/blue_egg.jpg" class="is-rounded">
+                <% end %>
+              </figure>
+              <span class="margin-left-2"><%= @current_user.name %></span>
             <% end %>
             <%= link_to("投稿一覧", "/posts", class: " margin-x-1 navbar-item") %>
             <%= link_to("新規投稿", "/posts/new", class: " margin-x-1 navbar-item") %>
@@ -96,7 +87,7 @@
 
     </header>
     <% if flash[:notice] %>
-      <div class="flash padding-y-3 has-text-centered has-background-orange has-text-white">
+      <div class="flash padding-y-3 has-text-centered has-background-success has-text-white">
         <%= flash[:notice] %>
       </div>
     <% end %>
@@ -150,6 +141,7 @@
           $(".navbar-menu").toggleClass("is-active");
 
       });
+
     </script>
 
   </body>

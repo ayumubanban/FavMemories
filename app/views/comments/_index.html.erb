@@ -3,7 +3,7 @@
 
     <article class="media">
       <figure class="media-left">
-        <p class="image is-64x64">
+        <p class="image is-48x48">
           <% if comment.user.avatar.attached? %>
             <%= image_tag comment.user.avatar, class: "is-rounded" %>
           <% else %>
@@ -23,7 +23,7 @@
         <%# ログインしてる？ %>
         <%# if @current_user %>
           <% if comment.user == @current_user %>
-            <%= link_to "削除", "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, remote: true %>
+            <%= link_to "削除", "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, remote: true, class: "has-text-danger" %>
           <% end %>
         <%# end %>
       </div>
