@@ -37,10 +37,10 @@
         <div class="card-content">
 
 
-          <div class="content" style="word-wrap: break-word;">
-            <p>
-              <%= @post.content %>
-            </p>
+          <div class="content is-size-4" style="word-wrap: break-word;">
+              <%#= simple_format(h(@post.content)) %>
+              <%# 改行＆リンク反映 %>
+              <%= simple_format(text_url_to_link(h(@post.content)).html_safe) %>
           </div>
 
 
