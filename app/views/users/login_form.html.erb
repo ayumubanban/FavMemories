@@ -1,29 +1,65 @@
-<div class="">ログイン</div>
-<div class="form users-form">
-  <div class="form-body">
-  <% if @error_message %>
-    <div class="form-error">
-      <%= @error_message %>
+
+
+<div class="section">
+  <div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="box">
+      <% if @error_message %>
+        <div class="has-text-danger">
+          <%= @error_message %>
+        </div>
+      <% end %>
+
+      <p class="is-size-3 margin-bottom-3">ログイン</p>
+      <%= form_with model: @user, url: "/login", local: true do |form| %>
+
+        <div class="field">
+          <%= form.label :email, "メールアドレス", class: "label" %>
+          <div class="control">
+            <%= form.text_field :email, value: @email, class: "input" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :password, "パスワード", class: "label" %>
+          <div class="control">
+            <%= form.password_field :password, value: @password, class: "input" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= form.submit "ログイン", class: "button is-info" %>
+          </div>
+        </div>
+
+      <% end %>
+
     </div>
-  <% end %>
-  <%= form_with model: @user, url: "/login", local: true do |form| %>
-    <!-- <p>メールアドレス</p>
-    <input class="input" name="email" value="<%= @email %>">
-    <p>パスワード</p>
-    <input class="input" type="password" name="password" value="<%= @password %>">
-    <br>
-    <input class="button is-primary" type="submit" value="ログイン"> -->
-    <%= form.label :email, "メールアドレス" %>
-    <%= form.text_field :email, value: @email, class: "" %>
-    <%= form.label :password, "パスワード" %>
-    <%= form.password_field :password, value: @password, class: "" %>
-    <%= form.submit "ログイン", class: "button is-primary" %>
-  <% end %>
+    </div>
   </div>
 </div>
 
-<%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
-<i class="fa fa-google"></i>
-<br>
-<%= link_to "Sign in with Github", "/auth/github", id: "aaa" %>
-<i class="fa fa-github"></i>
+
+
+
+<div class="has-text-centered">
+
+  <%= link_to "/auth/google_oauth2" do %>
+    <button class="button is-danger is-outlined">
+      <span class="icon">
+        <i class="fa fa-google"></i>
+      </span>
+      <span>Googleでログイン</span>
+    </button>
+  <% end %>
+  <%= link_to "/auth/github" do %>
+    <button class="button is-black is-outlined">
+      <span class="icon">
+        <i class="fa fa-github"></i>
+      </span>
+      <span>GitHubでログイン</span>
+    </button>
+  <% end %>
+
+</div>

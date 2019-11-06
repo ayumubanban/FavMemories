@@ -1,41 +1,79 @@
-<div class="main posts-new">
-  <div class="">
-    <h1 class="form-heading">編集する</h1>
 
-    <% @post.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
-      </div>
-    <% end %>
-    <%= form_with model: @post, url: "/posts/#{@post.id}", method: :put, local: true do |form| %>
-      <%= form.label :content, "投稿内容" %>
-      <%= form.text_area :content, value: @post.content, class: "" %>
-      <%= form.label :photo, "投稿画像(任意)" %>
-      <%= form.file_field :photo, class: "", id: "book_img" %>
-      現在の画像
-      <%#= image_tag @user.avatar, id: "img_prev" if @user.avatar.attached? %>
-      <%# 画像プレビュー機能あり 1101 img_prevをidからclassに変え、複数つけた %>
-      <% if @post.photo.attached? %>
-        <%= image_tag @post.photo, class: "is-rounded img_prev", id: "" %>
-      <% end %>
-      <%= form.submit "投稿", class: "button is-primary" %>
-    <% end %>
 
-    <!--
-    <%= form_tag("/posts/#{@post.id}/update") do %>
-      <div class="form">
-        <div class="form-body">
-          <% @post.errors.full_messages.each do |message| %>
-            <div class="form-error">
-              <%= message %>
-            </div>
-          <% end %>
-          <textarea name="content"><%= @post.content %></textarea>
-          <input type="submit" value="保存">
+
+
+<div class="section">
+  <div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="box">
+      <p class="is-size-3 margin-bottom-3">投稿の編集</p>
+      <% @post.errors.full_messages.each do |message| %>
+        <div class="has-text-danger">
+          <%= message %>
+          <%# すみませんが、画像を選択し直してください %>
         </div>
-      </div>
-    <% end %>
-    -->
+      <% end %>
+      <%= form_with model: @post, url: "/posts/#{@post.id}", method: :put, local: true do |form| %>
+        <div class="field">
+          <%#= form.label :name, "ユーザー名", class: "label" %>
+          <%= form.label :content, "投稿内容", class: "label" %>
+          <div class="control">
+            <%#= form.text_field :name, value: @user.name, class: "input" %>
+            <%= form.text_area :content, value: @post.content, class: "textarea" %>
+          </div>
+        </div>
 
+        <div class="is-flex">
+          <div class="field">
+            <%= form.label :photo, "投稿画像(任意)", class: "label" %>
+            <div class="control">
+              <div id="file-js-example" class="file has-name">
+                <label class="file-label">
+                  <%= form.file_field :photo, class: "file-input", id: :book_img %>
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fa fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      ファイルを選択
+                    </span>
+                  </span>
+                  <span class="file-name">
+                    選択されていません
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <%# 画像プレビュー機能あり 1101 img_prevをidからclassに変え、複数つけた %>
+          <figure class="image is-256x256 margin-left-5">
+            <% if @post.photo.attached? %>
+              <%= image_tag @post.photo, class: " img_prev", id: "" %>
+            <% end %>
+          </figure>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= form.submit "保存", class: "button is-info" %>
+          </div>
+        </div>
+
+      <% end %>
+
+    </div>
+    </div>
   </div>
 </div>
+
+<script>
+  // file inputにファイル名を反映
+  const fileInput = document.querySelector('#file-js-example input[type=file]');
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#file-js-example .file-name');
+      fileName.textContent = fileInput.files[0].name;
+    }
+  }
+</script>

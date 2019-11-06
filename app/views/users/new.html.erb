@@ -1,27 +1,103 @@
-<div class="">新規ユーザー登録</div>
-  <div class="form users-form">
-    <div class="form-body">
-    <% @user.errors.full_messages.each do |message| %>
-      <div class="has-text-danger">
-        <%= message %>
+<div class="section">
+  <div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="box">
+      <p class="is-size-3 margin-bottom-3">新規ユーザー登録</p>
+      <% @user.errors.full_messages.each do |message| %>
+        <div class="has-text-danger">
+          <%= message %>
+        </div>
+      <% end %>
+      <%= form_with model: @user, url: "/users", local: true do |form| %>
+
+      <div class="field">
+        <%= form.label :name, "ユーザー名", class: "label" %>
+        <div class="control">
+          <%= form.text_field :name, value: @user.name, class: "input" %>
+        </div>
       </div>
-    <% end %>
 
-    <%= form_with model: @user, url: "/users", local: true do |form| %>
-      <%= form.label :name, "ユーザー名"%>
-      <%= form.text_field :name, value: @user.name, class: "" %>
-      <%= form.label :email, "メールアドレス" %>
-      <%= form.text_field :email, value: @user.email, class: "" %>
-      <%= form.label :avatar, "プロフィール画像(任意)" %>
+      <div class="field">
+        <%= form.label :email, "メールアドレス", class: "label" %>
+        <div class="control">
+          <%= form.text_field :email, value: @user.email, class: "input" %>
+        </div>
+      </div>
 
-      <%= form.file_field :avatar, class: "" %>
+      <div class="field">
+        <%= form.label :avatar, "プロフィール画像(任意)", class: "label" %>
+        <div class="control">
+          <div id="file-js-example" class="file has-name">
+            <label class="file-label">
+              <%= form.file_field :avatar, class: "file-input", id: :book_img %>
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fa fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  ファイルを選択
+                </span>
+              </span>
+              <span class="file-name">
+                選択されていません
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
 
-      <br>
-      <%= form.label :password, "パスワード" %>
-      <%= form.password_field :password, value: @user.password, class: "" %>
-      <br>
-      <%= form.submit "新規登録", class: "button is-primary" %>
-    <% end %>
+      <%# 一応残しとく。これと、id: :book_imgが機能 %>
+      <%= image_tag @user.avatar, id: :img_prev, class: "img_prev" if @user.avatar.attached? %>
+
+      <div class="field">
+        <%= form.label :password, "パスワード", class: "label" %>
+        <div class="control">
+          <%= form.password_field :password, value: @user.password, class: "input" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <%= form.submit "新規登録", class: "button is-info" %>
+        </div>
+      </div>
+
+      <% end %>
 
     </div>
+    </div>
   </div>
+</div>
+
+<div class="has-text-centered">
+
+  <%= link_to "/auth/google_oauth2" do %>
+    <button class="button is-danger is-outlined">
+      <span class="icon">
+        <i class="fa fa-google"></i>
+      </span>
+      <span>Googleで新規登録</span>
+    </button>
+  <% end %>
+  <%= link_to "/auth/github" do %>
+    <button class="button is-black is-outlined">
+      <span class="icon">
+        <i class="fa fa-github"></i>
+      </span>
+      <span>GitHubで新規登録</span>
+    </button>
+  <% end %>
+
+</div>
+
+
+<script>
+  // file inputにファイル名を反映
+  const fileInput = document.querySelector('#file-js-example input[type=file]');
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#file-js-example .file-name');
+      fileName.textContent = fileInput.files[0].name;
+    }
+  }
+</script>

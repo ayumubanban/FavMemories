@@ -5,19 +5,19 @@
         <div class="header padding-4">
           <div class="media">
             <div class="media-left">
-              <figure class="image is-48x48">
+              <figure class="image is-64x64">
                 <% if @user.avatar.attached? %>
                   <%# Magnific Popupでクリックしたらポップアップ画像が表示されるようにした %>
                   <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
                 <% elsif @user.image %>
-                  <%= image_tag @user.image, class: "is-rounded popup-link" %>
+                  <%= image_tag @user.image, class: "is-rounded" %>
                 <% else %>
                   <img src="/blue_egg.jpg" class="is-rounded">
                 <% end %>
               </figure>
             </div>
             <div class="media-content">
-                <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}" %></p>
+              <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}" %></p>
             </div>
 
             <%# フォロー ajax %>
@@ -31,7 +31,6 @@
           <div class="card-image">
             <figure class="image is-4by3">
               <%= link_to image_tag(@post.photo, class: ""), @post.photo, class: "popup-link" %>
-              <%#= image_tag @post.photo, class: "is-rounded" %>
             </figure>
           </div>
         <% end %>
@@ -44,15 +43,7 @@
             </p>
           </div>
 
-          <%# ログインしてる？ %>
-          <% if @current_user %>
-            <div class="post-menus">
-                <% if @post.user_id == @current_user.id %>
-                  <%= link_to("編集", "/posts/#{@post.id}/edit") %>
-                  <%= link_to("削除", "/posts/#{@post.id}", method: :delete) %>
-                <% end %>
-            </div>
-          <% end %>
+
 
           <div class="level is-mobile">
             <div class="level-left">
@@ -69,7 +60,7 @@
               <div class="level-item has-text-centered">
                 <div>
                 <a href="#comment_form">
-                  <i class="fa fa-comment"></i>
+                  <i class="fa fa-commenting-o"></i>
                 </a>
                 <%= @post.comments.count %>
                 </div>
@@ -78,30 +69,47 @@
             </div>
           </div>
 
+          <%# ログインしてる？ %>
+          <% if @current_user %>
+            <div class="post-menus">
+                <% if @post.user_id == @current_user.id %>
+                  <%= link_to("編集", "/posts/#{@post.id}/edit", class: "has-text-grey") %>
+                  <%= link_to("削除", "/posts/#{@post.id}", method: :delete, class: "has-text-danger") %>
+                <% end %>
+            </div>
+          <% end %>
+
         </div>
 
       </div>
+
+
+
+
+
+      <div class="margin-y-5">
+        <p class="is-size-5 margin-bottom-3">コメント一覧</p>
+        <%# コメント一覧 %>
+        <div id="comments_area">
+          <%= render partial: 'comments/index', locals: { comments: @comments } %>
+        </div>
+      </div>
+
+      <div class="box">
+        <%# ログインしてる？ %>
+        <% if @current_user %>
+          <%# コメント入力欄 %>
+          <div id="comment_form">
+          <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
+          </div>
+        <% else %>
+          <label for="dummy">コメント</label>
+          <input id="dummy"/>
+          <%= link_to 'Create Comment', "/posts/#{@post.id}/comments", method: :post, class: "button" %>
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>
 
-
-<div class="section">
-  <p>コメント一覧</p>
-  <%# コメント一覧 %>
-  <div id="comments_area">
-    <%= render partial: 'comments/index', locals: { comments: @comments } %>
-  </div>
-</div>
-
-  <%# ログインしてる？ %>
-    <% if @current_user %>
-      <%# コメント入力欄 %>
-      <div id="comment_form">
-      <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
-      </div>
-    <% else %>
-      <label for="dummy">コメント</label>
-      <input id="dummy"/>
-      <%= link_to 'Create Comment', "/posts/#{@post.id}/comments", method: :post, class: "button" %>
-    <% end %>
