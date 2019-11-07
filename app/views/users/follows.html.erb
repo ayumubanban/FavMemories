@@ -5,7 +5,7 @@
     <% elsif @user.image %>
       <%= image_tag @user.image, class: "is-rounded" %>
     <% else %>
-      <img src="/blue_egg.jpg" class="is-rounded">
+      <img src="/avatar.png" class="is-rounded">
     <% end %>
   </figure>
   <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
@@ -37,7 +37,7 @@
           <% elsif following.image %>
             <%= image_tag following.image, class: "is-rounded" %>
           <% else %>
-            <img src="/blue_egg.jpg" class="is-rounded">
+            <img src="/avatar.png" class="is-rounded">
           <% end %>
         </p>
       </figure>

@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   validates :name, { presence: true, length: { maximum: 20 } }
   validates :email, { presence: true, uniqueness: true }
+  validates :intro, length: { maximum: 150 }
 
   # * 投稿
   has_many :posts, dependent: :destroy

@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="column is-three-fifths is-offset-one-fifth">
       <div class="card">
-        <div class="header padding-4">
+        <div class="header padding-x-4 padding-top-4">
           <div class="media">
             <div class="media-left">
               <figure class="image is-64x64">
@@ -12,23 +12,23 @@
                 <% elsif @user.image %>
                   <%= image_tag @user.image, class: "is-rounded" %>
                 <% else %>
-                  <img src="/blue_egg.jpg" class="is-rounded">
+                  <img src="/avatar.png" class="is-rounded">
                 <% end %>
               </figure>
             </div>
-            <div class="media-content">
-              <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}" %></p>
+            <div class="media-content margin-top-3">
+              <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}", class: "has-text-black has-text-weight-normal" %></p>
             </div>
 
             <%# フォロー ajax %>
-            <div id="follows_buttons_<%= @user.id %>">
+            <div id="follows_buttons_<%= @user.id %>" class="margin-top-2">
               <%= render partial: "relationships/follow", locals: { user: @user } %>
             </div>
 
           </div>
         </div>
         <% if @post.photo.attached? %>
-          <div class="card-image">
+          <div class="card-image padding-top-4">
             <figure class="image is-4by3">
               <%= link_to image_tag(@post.photo, class: ""), @post.photo, class: "popup-link" %>
             </figure>
@@ -44,37 +44,28 @@
           </div>
 
 
-
-          <div class="level is-mobile">
-            <div class="level-left">
-              <time><%= @post.created_at.in_time_zone('Tokyo').strftime("%Y年%m月%d日 %H時%M分") %></time>
+          <div class="is-flex">
+            <time><%= @post.created_at.in_time_zone('Tokyo').strftime("%Y年%m月%d日 %H時%M分") %></time>
+            <%# いいね ajax %>
+            <div id="likes_buttons_<%= @post.id %>" class="margin-left-auto margin-right-2">
+              <%= render partial: 'likes/like', locals: { post: @post } %>
             </div>
-
-            <div class="level-right">
-              <div class="level-item has-text-centered">
-                <%# いいね ajax %>
-                <div id="likes_buttons_<%= @post.id %>">
-                  <%= render partial: 'likes/like', locals: { post: @post } %>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                <a href="#comment_form">
-                  <i class="fa fa-commenting-o"></i>
-                </a>
-                <%= @post.comments.count %>
-                </div>
-
-              </div>
+            <div>
+              <a href="#comment_form">
+                <i class="fa fa-commenting-o"></i>
+              </a>
+              <%= @post.comments.count %>
             </div>
           </div>
 
+
+
           <%# ログインしてる？ %>
           <% if @current_user %>
-            <div class="post-menus">
-                <% if @post.user_id == @current_user.id %>
-                  <%= link_to("編集", "/posts/#{@post.id}/edit", class: "has-text-grey") %>
-                  <%= link_to("削除", "/posts/#{@post.id}", method: :delete, class: "has-text-danger") %>
+            <div class="margin-top-2">
+              <% if @post.user_id == @current_user.id %>
+                <%= link_to("編集", "/posts/#{@post.id}/edit", class: "has-text-grey") %>
+                <%= link_to("削除", "/posts/#{@post.id}", method: :delete, class: "has-text-danger") %>
                 <% end %>
             </div>
           <% end %>
@@ -100,12 +91,20 @@
         <% if @current_user %>
           <%# コメント入力欄 %>
           <div id="comment_form">
-          <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
+            <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
           </div>
         <% else %>
-          <label for="dummy">コメント</label>
-          <input id="dummy"/>
-          <%= link_to 'Create Comment', "/posts/#{@post.id}/comments", method: :post, class: "button" %>
+        <div class="field">
+          <label for="dummy" class="label">コメント</label>
+          <div class="control">
+            <textarea id="dummy" class="textarea" rows="2" placeholder="コメントを入力する" ></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <%= link_to 'コメントする', "/posts/#{@post.id}/comments", method: :post, class: "button is-outlined is-small" %>
+          </div>
+        </div>
         <% end %>
       </div>
 

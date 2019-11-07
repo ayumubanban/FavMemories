@@ -8,6 +8,7 @@ ja:
         updated_at: 更新日時
         password: パスワード
         password_digest: パスワード
+        intro: 自己紹介文
       post:
         content: 投稿内容
         created_at: 作成日時
