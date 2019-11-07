@@ -1,36 +1,49 @@
-<h1 class="users-heading">ユーザー一覧</h1>
-<% @users.each do |user| %>
-  <article class="media">
-    <figure class="media-left">
-      <p class="image is-96x96">
-        <% if user.avatar.attached? %>
-          <%= image_tag user.avatar, class: "is-rounded" %>
-        <% elsif user.image %>
-          <%= image_tag user.image, class: "is-rounded" %>
-        <% else %>
-          <img src="/avatar.png" class="is-rounded">
-        <% end %>
-      </p>
-    </figure>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong><%= link_to(user.name, "/users/#{user.id}", class: "has-text-black") %></strong>
-        </p>
-      </div>
+<div class="margin-top-4">
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="box">
+      <% @users.each do |user| %>
+        <article class="media">
+          <figure class="media-left">
+            <%= link_to "/users/#{user.id}" do %>
+              <p class="image is-64x64">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar, class: "is-rounded" %>
+                <% elsif user.image %>
+                  <%= image_tag user.image, class: "is-rounded" %>
+                <% else %>
+                  <img src="/avatar.png" class="is-rounded">
+                <% end %>
+              </p>
+            <% end %>
+          </figure>
+          <div class="media-content">
+            <div class="is-flex">
+              <p class="title is-5">
+                <%= link_to(user.name, "/users/#{user.id}", class: "has-text-black") %>
+              </p>
+              <%# フォロー ajax %>
+              <div id="follows_buttons_<%= user.id %>" class="margin-left-auto">
+                <%= render partial: "relationships/follow", locals: { user: user } %>
+              </div>
+            </div>
 
-      <%# フォロー ajax %>
-      <div id="follows_buttons_<%= user.id %>">
-        <%= render partial: "relationships/follow", locals: { user: user } %>
-      </div>
+            <%= link_to "/users/#{user.id}" do %>
+              <div class="has-text-black">
+                <%= user.intro %>
+              </div>
+            <% end %>
 
-      <%# 管理者ユーザー %>
-      <% if @current_user %>
-        <% if @current_user.admin? && !(@current_user == user) %>
-          <%= link_to "削除", "/users/#{user.id}", method: :delete %>
-        <% end %>
+            <%# 管理者ユーザー %>
+            <% if @current_user %>
+              <% if @current_user.admin? && !(@current_user == user) %>
+                <%= link_to "削除", "/users/#{user.id}", method: :delete %>
+              <% end %>
+            <% end %>
+          </div>
+        </article>
       <% end %>
-
+      </div>
     </div>
-  </article>
-<% end %>
+  </div>
+</div>

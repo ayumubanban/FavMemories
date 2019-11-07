@@ -3,13 +3,15 @@
 
     <article class="media">
       <figure class="media-left">
-        <p class="image is-48x48">
-          <% if comment.user.avatar.attached? %>
-            <%= image_tag comment.user.avatar, class: "is-rounded" %>
-          <% else %>
-            <img src="/avatar.png" class="is-rounded">
-          <% end %>
-        </p>
+        <%= link_to "/users/#{comment.user.id}" do %>
+          <p class="image is-48x48">
+            <% if comment.user.avatar.attached? %>
+              <%= image_tag comment.user.avatar, class: "is-rounded" %>
+            <% else %>
+              <img src="/avatar.png" class="is-rounded">
+            <% end %>
+          </p>
+        <% end %>
       </figure>
       <div class="media-content">
         <div class="content">
