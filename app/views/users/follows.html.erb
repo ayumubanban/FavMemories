@@ -1,61 +1,132 @@
-<div class="has-text-centered">
-  <figure class="image is-128x128 margin-x-auto">
-    <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar, class: "is-rounded" %>
-    <% elsif @user.image %>
-      <%= image_tag @user.image, class: "is-rounded" %>
-    <% else %>
-      <img src="/avatar.png" class="is-rounded">
-    <% end %>
-  </figure>
-  <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
-  <p><%#= @user.email %></p>
-  <% if @user.id == @current_user.id %>
-    <%= link_to("編集", "/users/#{@user.id}/edit", class: "has-text-grey") %>
-  <% end %>
+<div class="section">
+  <div class="has-text-centered">
+    <div class="columns">
+      <div class="column is-half is-offset-one-quarter">
+        <div class="box">
+          <figure class="image is-96x96 margin-x-auto">
+            <% if @user.avatar.attached? %>
+              <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+            <% elsif @user.image %>
+              <%= link_to image_tag(@user.image, class: "is-rounded"), @user.image, class: "popup-link" %>
+              <%#= image_tag @user.image, class: "is-rounded" %>
+            <% else %>
+              <%= link_to image_tag("/avatar.png", class: "is-rounded"), "/avatar.png", class: "popup-link" %>
+            <% end %>
+          </figure>
+          <h2 class="is-size-4 has-text-weight-bold padding-y-2"><%= @user.name %></h2>
+          <p><%#= @user.email %></p>
 
-  <%# フォロー ajax %>
-  <div id="follows_buttons_<%= @user.id %>">
-    <%= render partial: "relationships/follow", locals: { user: @user } %>
-  </div>
+          <%# フォロー ajax %>
+          <div id="follows_buttons_<%= @user.id %>">
+            <%= render partial: "relationships/follow", locals: { user: @user } %>
+          </div>
 
-  <div class="tabs is-centered is-boxed">
-    <ul>
-      <li><%= link_to("投稿", "/users/#{@user.id}") %></li>
-      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
-      <li class="is-active"><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
-      <li><%= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %></li>
-    </ul>
-  </div>
-
-  <% @followings.each do |following| %>
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-96x96">
-          <% if following.avatar.attached? %>
-            <%= image_tag following.avatar, class: "is-rounded" %>
-          <% elsif following.image %>
-            <%= image_tag following.image, class: "is-rounded" %>
-          <% else %>
-            <img src="/avatar.png" class="is-rounded">
-          <% end %>
-        </p>
-      </figure>
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong><%= link_to(following.name, "/users/#{following.id}", class: "has-text-black") %></strong>
+          <p class="margin-top-3 is-size-6">
+            <%= @user.intro %>
           </p>
+
+          <%# これはidを比較する必要はあるのか？ないよな？ %>
+          <%# if @user.id == @current_user.id %>
+          <div class="margin-top-2">
+            <% if @user == @current_user %>
+              <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
+            <% end %>
+          </div>
         </div>
-
-        <%# フォロー ajax %>
-        <div id="follows_buttons_<%= following.id %>">
-          <%= render partial: "relationships/follow", locals: { user: following } %>
-        </div>
-
-
-
       </div>
-    </article>
+    </div>
+
+
+
+
+    <div class="tabs is-centered is-boxed">
+      <ul>
+        <li>
+          <%#= link_to("投稿", "/users/#{@user.id}") %>
+          <%= link_to("/users/#{@user.id}") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">投稿</p>
+              <p class="title is-size-6"><%= @user.posts.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li>
+          <%#= link_to("いいね!", "/users/#{@user.id}/likes") %>
+          <%= link_to("/users/#{@user.id}/likes") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">いいね</p>
+              <p class="title is-size-6"><%= @user.like_posts.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li class="is-active">
+          <%#= link_to("フォロー一覧", "/users/#{@user.id}/follows") %>
+          <%= link_to("/users/#{@user.id}/follows") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">フォロー</p>
+              <p class="title is-size-6"><%= @user.followings.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li>
+          <%#= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %>
+          <%= link_to("/users/#{@user.id}/followers") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">フォロワー</p>
+              <p class="title is-size-6"><%= @user.followers.count %></p>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+  <% if @followings.count != 0 %>
+    <div class="box">
+    <% @followings.each do |following| %>
+      <article class="media">
+        <figure class="media-left">
+          <%= link_to "/users/#{following.id}" do %>
+            <p class="image is-64x64">
+              <% if following.avatar.attached? %>
+                <%= image_tag following.avatar, class: "is-rounded" %>
+              <% elsif following.image %>
+                <%= image_tag following.image, class: "is-rounded" %>
+              <% else %>
+                <img src="/avatar.png" class="is-rounded">
+              <% end %>
+            </p>
+          <% end %>
+        </figure>
+        <div class="media-content">
+          <div class="is-flex">
+            <p class="title is-5">
+              <%= link_to(following.name, "/users/#{following.id}", class: "has-text-black") %>
+            </p>
+            <%# フォロー ajax %>
+            <div id="follows_buttons_<%= following.id %>" class="margin-left-auto">
+              <%= render partial: "relationships/follow", locals: { user: following } %>
+            </div>
+          </div>
+
+          <%= link_to "/users/#{following.id}" do %>
+            <div class="has-text-black">
+              <%= following.intro %>
+            </div>
+          <% end %>
+
+        </div>
+      </article>
+    <% end %>
+    </div>
   <% end %>
+  </div>
 </div>

@@ -5,16 +5,18 @@
         <div class="header padding-x-4 padding-top-4">
           <div class="media">
             <div class="media-left">
+              <%= link_to "/users/#{@user.id}" do %>
               <figure class="image is-64x64">
                 <% if @user.avatar.attached? %>
-                  <%# Magnific Popupでクリックしたらポップアップ画像が表示されるようにした %>
-                  <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+                  <%#= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+                  <%= image_tag @user.avatar, class: "is-rounded" %>
                 <% elsif @user.image %>
                   <%= image_tag @user.image, class: "is-rounded" %>
                 <% else %>
                   <img src="/avatar.png" class="is-rounded">
                 <% end %>
               </figure>
+              <% end %>
             </div>
             <div class="media-content margin-top-3">
               <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}", class: "has-text-black has-text-weight-normal" %></p>

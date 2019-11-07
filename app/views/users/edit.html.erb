@@ -35,11 +35,10 @@
         <%# 文字数カウント %>
         <p id="counter"></p>
 
-        <div class="is-flex">
           <div class="field">
             <%= form.label :avatar, "プロフィール画像(任意)", class: "label" %>
             <div class="control">
-              <div id="file-js-example" class="file has-name">
+              <div class="file">
                 <label class="file-label">
                   <%= form.file_field :avatar, class: "file-input", id: :book_img %>
                   <span class="file-cta">
@@ -50,16 +49,13 @@
                       ファイルを選択
                     </span>
                   </span>
-                  <span class="file-name">
-                    選択されていません
-                  </span>
                 </label>
               </div>
             </div>
           </div>
 
           <%# 画像プレビュー機能あり 1101 img_prevをidからclassに変え、複数つけた %>
-          <figure class="image is-128x128 margin-left-5">
+          <figure class="image is-128x128 margin-bottom-4">
             <% if @user.avatar.attached? %>
               <%= image_tag @user.avatar, class: "is-rounded img_prev", id: "" %>
             <% elsif @user.image %>
@@ -68,7 +64,6 @@
               <img src="/avatar.png" class="is-rounded img_prev">
             <% end %>
           </figure>
-        </div>
 
         <div class="field">
           <div class="control">
@@ -84,12 +79,4 @@
 </div>
 
 <script>
-  // file inputにファイル名を反映
-  const fileInput = document.querySelector('#file-js-example input[type=file]');
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector('#file-js-example .file-name');
-      fileName.textContent = fileInput.files[0].name;
-    }
-  }
 </script>

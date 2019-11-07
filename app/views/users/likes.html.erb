@@ -1,68 +1,162 @@
-<div class="has-text-centered">
-  <figure class="image is-128x128 margin-x-auto">
-    <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar, class: "is-rounded" %>
-    <% elsif @user.image %>
-      <%= image_tag @user.image, class: "is-rounded" %>
-    <% else %>
-      <img src="/avatar.png" class="is-rounded">
-    <% end %>
-  </figure>
-  <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
-  <p><%#= @user.email %></p>
-  <% if @user.id == @current_user.id %>
-    <%= link_to("編集", "/users/#{@user.id}/edit", class: "has-text-grey") %>
-  <% end %>
+<div class="section">
+  <div class="has-text-centered">
+    <div class="columns">
+      <div class="column is-half is-offset-one-quarter">
+        <div class="box">
+          <figure class="image is-96x96 margin-x-auto">
+            <% if @user.avatar.attached? %>
+              <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
+            <% elsif @user.image %>
+              <%= link_to image_tag(@user.image, class: "is-rounded"), @user.image, class: "popup-link" %>
+            <% else %>
+              <%= link_to image_tag("/avatar.png", class: "is-rounded"), "/avatar.png", class: "popup-link" %>
+            <% end %>
+          </figure>
+          <h2 class="is-size-4 has-text-weight-bold padding-y-2"><%= @user.name %></h2>
+          <p><%#= @user.email %></p>
 
-  <%# フォロー ajax %>
-  <div id="follows_buttons_<%= @user.id %>">
-    <%= render partial: "relationships/follow", locals: { user: @user } %>
-  </div>
+          <%# フォロー ajax %>
+          <div id="follows_buttons_<%= @user.id %>">
+            <%= render partial: "relationships/follow", locals: { user: @user } %>
+          </div>
 
-  <div class="tabs is-centered is-boxed">
-    <ul>
-      <li><%= link_to("投稿", "/users/#{@user.id}") %></li>
-      <li class="is-active"><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
-      <li><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
-      <li><%= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %></li>
-    </ul>
-  </div>
-
-  <% @like_posts.each do |post| %>
-    <!-- ここでロジック展開するのは微妙な気がする…has_many, belongs_to導入するか？ -->
-    <%# post = Post.find_by(id: like.post_id) %>
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-96x96">
-          <% if post.user.avatar.attached? %>
-            <%= image_tag post.user.avatar, class: "is-rounded" %>
-          <% elsif post.user.image %>
-            <%= image_tag post.user.image, class: "is-rounded" %>
-          <% else %>
-            <img src="/avatar.png" class="is-rounded">
-          <% end %>
-        </p>
-      </figure>
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></strong>
-            <br>
-            <%= link_to(post.content, "/posts/#{post.id}", class: "has-text-dark") %>
+          <p class="margin-top-3 is-size-6">
+            <%= @user.intro %>
           </p>
-        </div>
-        <nav class="level is-mobile">
-          <div class="level-left">
-            <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
 
-            <%# いいね ajax %>
-            <div id="likes_buttons_<%= post.id %>">
-              <%= render partial: 'likes/like', locals: { post: post } %>
+          <%# これはidを比較する必要はあるのか？ないよな？ %>
+          <%# if @user.id == @current_user.id %>
+          <div class="margin-top-2">
+            <% if @user == @current_user %>
+              <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="tabs is-centered is-boxed margin-bottom-5">
+      <ul>
+        <li>
+          <%#= link_to("投稿", "/users/#{@user.id}") %>
+          <%= link_to("/users/#{@user.id}") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">投稿</p>
+              <p class="title is-size-6"><%= @user.posts.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li class="is-active">
+          <%#= link_to("いいね!", "/users/#{@user.id}/likes") %>
+          <%= link_to("/users/#{@user.id}/likes") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">いいね</p>
+              <p class="title is-size-6"><%= @user.like_posts.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li>
+          <%#= link_to("フォロー一覧", "/users/#{@user.id}/follows") %>
+          <%= link_to("/users/#{@user.id}/follows") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">フォロー</p>
+              <p class="title is-size-6"><%= @user.followings.count %></p>
+            </div>
+          <% end %>
+        </li>
+        <li>
+          <%#= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %>
+          <%= link_to("/users/#{@user.id}/followers") do %>
+            <div>
+              <p class="heading has-text-dark is-size-6">フォロワー</p>
+              <p class="title is-size-6"><%= @user.followers.count %></p>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="columns is-multiline">
+    <% @like_posts.each do |post| %>
+      <div class="column is-4">
+        <div class="card">
+          <div class="card-image">
+            <figure class="image is-3by1">
+            <%# 投稿画像があればそれを表示 %>
+              <% if post.photo.attached? %>
+                <%= link_to image_tag(post.photo), "/posts/#{post.id}" %>
+              <% else %>
+                <%= link_to image_tag("/baloon.jpg"), "/posts/#{post.id}" %>
+              <% end %>
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <%# ユーザー画像あればそれを、なければ青卵を表示 %>
+                  <% if post.user.avatar.attached? %>
+                    <%= link_to image_tag(post.user.avatar, class: "is-rounded"), "/users/#{post.user.id}" %>
+                    <%#= image_tag post.user.avatar, class: "is-rounded" %>
+                  <% elsif post.user.image %>
+                    <%= link_to image_tag(post.user.image, class: "is-rounded"), "/users/#{post.user.id}" %>
+                    <%#= image_tag post.user.image, class: "is-rounded" %>
+                  <% else %>
+                    <%= link_to image_tag("/avatar.png", class: "is-rounded"), "/users/#{post.user.id}" %>
+                  <% end %>
+                </figure>
+              </div>
+              <div class="media-content margin-top-2">
+                <%# ユーザー名 %>
+                <p class="title is-4"><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black is-size-5 has-text-weight-normal") %></p>
+              </div>
             </div>
 
+            <%= link_to("/posts/#{post.id}", class: "has-text-dark is-size-5") do %>
+              <div class="content padding-bottom-4" style="word-wrap: break-word;">
+              <%# 文字サイズ変えてみて、改行されるようなら最大文字を変えよう %>
+                <%= truncate(post.content, length: 27, separator: " ") %>
+
+              </div>
+            <% end %>
+
+            <nav class="level is-mobile">
+              <div class="level-left">
+                <%# この時間を、投稿からの経過時間に変えたい %>
+                <time><%= time_ago_in_words(post.created_at) %>前</time>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <%# いいね ajax %>
+                  <div id="likes_buttons_<%= post.id %>">
+                    <%= render partial: 'likes/like', locals: { post: post } %>
+                  </div>
+                </div>
+                <div class="level-item">
+                  <div>
+                    <%= link_to "/posts/#{post.id}" do %>
+                      <i class="fa fa-commenting-o has-text-link"></i>
+                    <% end %>
+                    <%= post.comments.count %>
+                  </div>
+                  <!--
+                  <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span>
+                  -->
+                </div>
+
+              </div>
+            </nav>
           </div>
-        </nav>
+        </div>
       </div>
-    </article>
-  <% end %>
+    <% end %>
+  </div>
+  <div class="margin-top-5">
+    <%= paginate @like_posts %>
+  </div>
 </div>
