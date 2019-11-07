@@ -1,34 +1,79 @@
+<div class="section">
 <div class="has-text-centered">
-  <figure class="image is-128x128 margin-x-auto">
-    <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar, class: "is-rounded" %>
-    <% elsif @user.image %>
-      <%= image_tag @user.image, class: "is-rounded" %>
-    <% else %>
-      <img src="/blue_egg.jpg" class="is-rounded">
-    <% end %>
-  </figure>
-  <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
-  <p><%#= @user.email %></p>
-  <%# これはidを比較する必要はあるのか？ないよな？ %>
-  <%# if @user.id == @current_user.id %>
-  <% if @user == @current_user %>
-    <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
-  <% end %>
+  <div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+  <div class="box">
+    <figure class="image is-128x128 margin-x-auto">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar, class: "is-rounded" %>
+      <% elsif @user.image %>
+        <%= image_tag @user.image, class: "is-rounded" %>
+      <% else %>
+        <img src="/avatar.png" class="is-rounded">
+      <% end %>
+    </figure>
+    <h2 class="is-size-4 has-text-weight-bold"><%= @user.name %></h2>
+    <p><%#= @user.email %></p>
 
-  <%# フォロー ajax %>
-  <div id="follows_buttons_<%= @user.id %>">
-    <%= render partial: "relationships/follow", locals: { user: @user } %>
+    <%# フォロー ajax %>
+    <div id="follows_buttons_<%= @user.id %>">
+      <%= render partial: "relationships/follow", locals: { user: @user } %>
+    </div>
+
+    <p>
+      <%= @user.intro %>
+    </p>
+
+    <%# これはidを比較する必要はあるのか？ないよな？ %>
+    <%# if @user.id == @current_user.id %>
+    <% if @user == @current_user %>
+      <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
+    <% end %>
   </div>
+  </div>
+  </div>
+
 
 
 
   <div class="tabs is-centered is-boxed">
     <ul>
-      <li class="is-active"><%= link_to("投稿", "/users/#{@user.id}") %></li>
-      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
-      <li><%= link_to("フォロー一覧", "/users/#{@user.id}/follows") %></li>
-      <li><%= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %></li>
+      <li class="is-active">
+        <%#= link_to("投稿", "/users/#{@user.id}") %>
+        <%= link_to("/users/#{@user.id}") do %>
+          <div>
+            <p class="heading has-text-dark is-size-6">投稿</p>
+            <p class="title is-size-6"><%= @user.posts.count %></p>
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%#= link_to("いいね!", "/users/#{@user.id}/likes") %>
+        <%= link_to("/users/#{@user.id}/likes") do %>
+          <div>
+            <p class="heading has-text-dark is-size-6">いいね</p>
+            <p class="title is-size-6"><%= @user.like_posts.count %></p>
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%#= link_to("フォロー一覧", "/users/#{@user.id}/follows") %>
+        <%= link_to("/users/#{@user.id}/follows") do %>
+          <div>
+            <p class="heading has-text-dark is-size-6">フォロー</p>
+            <p class="title is-size-6"><%= @user.followings.count %></p>
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%#= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %>
+        <%= link_to("/users/#{@user.id}/followers") do %>
+          <div>
+            <p class="heading has-text-dark is-size-6">フォロワー</p>
+            <p class="title is-size-6"><%= @user.followers.count %></p>
+          </div>
+        <% end %>
+      </li>
     </ul>
   </div>
 
@@ -41,7 +86,7 @@
           <% elsif post.user.image %>
             <%= image_tag post.user.image, class: "is-rounded" %>
           <% else %>
-            <img src="/blue_egg.jpg" class="is-rounded">
+            <img src="/avatar.png" class="is-rounded">
           <% end %>
         </p>
       </figure>
@@ -67,4 +112,5 @@
       </div>
     </article>
   <% end %>
+</div>
 </div>

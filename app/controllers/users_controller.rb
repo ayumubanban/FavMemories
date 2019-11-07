@@ -44,6 +44,8 @@ class UsersController < ApplicationController
     # * form_withはform_tagとここが違う
     @user.name = params[:user][:name]
     @user.email = params[:user][:email]
+    # * 自己紹介文は任意
+    @user.intro = params[:user][:intro]
     # * 画像の選択は任意
     if avatar = params[:user][:avatar]
       @user.avatar.attach(avatar)

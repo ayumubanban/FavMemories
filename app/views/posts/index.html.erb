@@ -1,7 +1,7 @@
 
 
 <div class="section">
-<div class="columns is-multiline">
+<div class="columns is-multiline margin-bottom-5">
 <% @posts.each do |post| %>
   <div class="column is-4">
     <div class="card">
@@ -27,31 +27,46 @@
                 <%= link_to image_tag(post.user.image, class: "is-rounded"), "/users/#{post.user.id}" %>
                 <%#= image_tag post.user.image, class: "is-rounded" %>
               <% else %>
-                <%= link_to image_tag("/blue_egg.jpg", class: "is-rounded"), "/users/#{post.user.id}" %>
+                <%= link_to image_tag("/avatar.png", class: "is-rounded"), "/users/#{post.user.id}" %>
               <% end %>
             </figure>
           </div>
-          <div class="media-content">
+          <div class="media-content margin-top-2">
             <%# ユーザー名 %>
-            <p class="title is-4"><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black") %></p>
+            <p class="title is-4"><%= link_to(post.user.name, "/users/#{post.user.id}", class: "has-text-black is-size-5 has-text-weight-normal") %></p>
           </div>
         </div>
-        <div class="content" style="word-wrap: break-word;">
+
+        <%= link_to("/posts/#{post.id}", class: "has-text-dark is-size-5") do %>
+          <div class="content padding-bottom-4" style="word-wrap: break-word;">
           <%# 文字サイズ変えてみて、改行されるようなら最大文字を変えよう %>
-          <%= link_to(truncate(post.content, length: 27, separator: " "), "/posts/#{post.id}", class: "has-text-dark") %>
-          <%#= post.content %>
-          <br>
-          <%# この時間を、投稿からの経過時間に変えたい %>
-          <time><%= time_ago_in_words(post.created_at) %></time>
-        </div>
+            <%= truncate(post.content, length: 27, separator: " ") %>
+
+          </div>
+        <% end %>
+
         <nav class="level is-mobile">
           <div class="level-left">
-            <%# リンクにせんでもええかなと思い、aタグを外した←いや、とりまリンクにしといて、コメント投稿用のモーダルを表示されられるといいよね %>
-            <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span><%= post.comments.count %>
-
-            <%# いいね ajax %>
-            <div id="likes_buttons_<%= post.id %>">
-              <%= render partial: 'likes/like', locals: { post: post } %>
+            <%# この時間を、投稿からの経過時間に変えたい %>
+            <time><%= time_ago_in_words(post.created_at) %>前</time>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <%# いいね ajax %>
+              <div id="likes_buttons_<%= post.id %>">
+                <%= render partial: 'likes/like', locals: { post: post } %>
+              </div>
+            </div>
+            <div class="level-item">
+              <div>
+                <%= link_to "/posts/#{post.id}" do %>
+                  <i class="fa fa-commenting-o has-text-link"></i>
+                <% end %>
+                <%= post.comments.count %>
+              </div>
+              <!--
+              <span class="level-item icon is-small has-text-info"><i class="fa fa-reply"></i></span>
+              -->
             </div>
 
           </div>
@@ -61,5 +76,8 @@
   </div>
 <% end %>
 </div>
-<%= paginate @posts %>
+<div class="margin-top-5">
+  <%= paginate @posts %>
 </div>
+</div>
+

@@ -62,7 +62,7 @@
                 <% elsif @current_user.image %>
                   <%= image_tag @current_user.image, class: "is-rounded" %>
                 <% else %>
-                  <img src="/blue_egg.jpg" class="is-rounded">
+                  <img src="/avatar.png" class="is-rounded">
                 <% end %>
               </figure>
               <span class="margin-left-2"><%= @current_user.name %></span>
@@ -108,11 +108,12 @@
       $('.popup-link').magnificPopup({
         type: 'image'
       });
+      // コメントと自己紹介文の文字数カウント
       $(function(){
         $("#input-text").on("keyup", function() {
           let countNum = String($(this).val().length);
-          if (countNum <= 140){
-            $("#counter").text(countNum + " / 140文字");
+          if (countNum <= 150){
+            $("#counter").text(countNum + " / 150文字");
           } else {
             $("#counter").text("制限文字数を超えています").css("color","red");
           }

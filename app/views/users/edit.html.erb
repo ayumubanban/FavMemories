@@ -25,6 +25,16 @@
             <%= form.text_field :email, value: @user.email, class: "input" %>
           </div>
         </div>
+
+        <div class="field">
+          <%= form.label :intro, "自己紹介文", class: "label" %>
+          <div class="control">
+            <%= form.text_area :intro, value: @user.intro, class: "textarea", rows: "2", placeholder: "自己紹介文を入力する",id: "input-text" %>
+          </div>
+        </div>
+        <%# 文字数カウント %>
+        <p id="counter"></p>
+
         <div class="is-flex">
           <div class="field">
             <%= form.label :avatar, "プロフィール画像(任意)", class: "label" %>
@@ -55,7 +65,7 @@
             <% elsif @user.image %>
               <%= image_tag @user.image, class: "is-rounded img_prev" %>
             <% else %>
-              <img src="/blue_egg.jpg" class="is-rounded img_prev">
+              <img src="/avatar.png" class="is-rounded img_prev">
             <% end %>
           </figure>
         </div>
