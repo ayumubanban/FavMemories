@@ -7,6 +7,8 @@
           <p class="image is-48x48">
             <% if comment.user.avatar.attached? %>
               <%= image_tag comment.user.avatar, class: "is-rounded" %>
+            <% elsif comment.user.image %>
+              <%= image_tag comment.user.image, class: "is-rounded" %>
             <% else %>
               <img src="/avatar.png" class="is-rounded">
             <% end %>
@@ -20,6 +22,7 @@
             <br>
             <%= simple_format(text_url_to_link(h(comment.content)).html_safe) %>
           </p>
+          <time><%= @post.created_at.in_time_zone('Tokyo').strftime("%Y年%m月%d日 %H時%M分") %></time>
         </div>
 
         <% if comment.user == @current_user %>
