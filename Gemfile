@@ -56,14 +56,9 @@ group :test do
   gem 'database_cleaner'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 gem "bcrypt"
 gem "bulma-rails", "~> 0.7.5"
 gem "aws-sdk-s3", require: false
-# assetとs3の連携
-# gem 'asset_sync'
 
 # ajax導入のため
 gem 'jquery-rails'
@@ -75,5 +70,4 @@ gem 'omniauth-github'
 gem 'rails-i18n'
 
 # ページネーション
-# gem 'kaminari', '~> 0.17.0'
 gem 'kaminari', '~> 1.1.0'
