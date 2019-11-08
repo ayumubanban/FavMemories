@@ -40,13 +40,11 @@ RSpec.describe "Comments", type: :request do
         }
       end
       it "リクエストが成功する" do
-        puts Comment.all.inspect
         delete "/posts/#{@post.id}/comments/#{Comment.last.id}", xhr: true
         expect(response.status).to eq 200
       end
 
       it "コメントが削除できる" do
-        puts Comment.all.inspect
         expect do
           delete "/posts/#{@post.id}/comments/#{Comment.last.id}", xhr: true
         end.to change(Comment, :count).by(-1)

@@ -26,7 +26,7 @@ URL: https://fav-memories.herokuapp.com/
 - 記事へのいいね機能
   - Ajaxを用いた非同期での記事へのいいね作成・削除機能
   - ユーザーのいいね一覧表示機能
-- 記事へのコメント作成機能
+- 記事へのコメント機能
   - Ajaxを用いた非同期での記事へのコメント作成・削除機能
   - 記事へのコメント一覧表示機能
 - ユーザーへのフォロー機能
@@ -37,7 +37,7 @@ URL: https://fav-memories.herokuapp.com/
 - 開発環境
   - Docker for Mac
 - テスト環境
-  - RSpec(単体テスト・統合テスト)
+  - RSpec(単体テスト・結合テスト)
 - 本番環境
   - Heroku
 - DB
