@@ -6,9 +6,6 @@ class RelationshipsController < ApplicationController
 
     follow = @current_user.active_relationships.build(follower_id: params[:user_id])
     follow.save
-    # * ajax導入により、リダイレクト不要
-    # redirect_to("/users/index")
-    # redirect_to request.referrer
   end
 
   def destroy
@@ -16,7 +13,5 @@ class RelationshipsController < ApplicationController
 
     follow = @current_user.active_relationships.find_by(follower_id: params[:user_id])
     follow.destroy
-    # redirect_to("/users/index")
-    # redirect_to request.referrer
   end
 end

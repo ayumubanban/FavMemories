@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Like, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
   before do
     @takashi = FactoryBot.create(:takashi)
-    @apple = FactoryBot.create(:apple, user: @takashi)
-    @like = FactoryBot.create(:like, user: @takashi, post: @apple)
+    @post = FactoryBot.create(:post, user: @takashi)
+    @like = FactoryBot.create(:like, user: @takashi, post: @post)
   end
 
   context "有効ないいね" do
@@ -26,7 +25,7 @@ RSpec.describe Like, type: :model do
     end
 
     it "ユーザーidと記事idが重複している" do
-      duplicate_like = FactoryBot.build(:like, user: @takashi, post: @apple)
+      duplicate_like = FactoryBot.build(:like, user: @takashi, post: @post)
       expect(duplicate_like).not_to be_valid
     end
   end

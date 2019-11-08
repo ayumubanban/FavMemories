@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  # before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
-  before_action :authenticate_user, {only: [ :edit, :update, :likes, :follows, :followers, :destroy]}
+  before_action :authenticate_user, {only: [ :edit, :update, :destroy]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login, :login_sns]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
@@ -8,7 +7,7 @@ class UsersController < ApplicationController
     @users = User.all.order(created_at: :desc)
   end
 
-  PER = 3
+  PER = 9
   def show
     @user = User.find_by(id: params[:id])
     @posts = @user.posts.order(created_at: :desc).page(params[:page]).per(PER)
@@ -19,19 +18,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    # @user = User.new(
-    #   name: params[:name],
-    #   email: params[:email],
-    #   password: params[:password]
-    #   # avatar: params[:avatar]
-    # )
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "ユーザー登録が完了しました"
       redirect_to("/users/#{@user.id}")
     else
-      # ! 更新するとエラーなるのでルーティングを POST /users/createではなく /users に直した方がいいような気がする。これはupdateアクション等に関しても当てはまる。
       render("users/new")
     end
   end
@@ -40,7 +32,6 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
 
-  # * ストロングパラメータにした方がいい←と思ってたけど、無理にする必要はないよね
   def update
     @user = User.find_by(id: params[:id])
     # * form_withはform_tagとここが違う
@@ -52,7 +43,6 @@ class UsersController < ApplicationController
     if avatar = params[:user][:avatar]
       @user.avatar.attach(avatar)
     end
-    # @user.avatar = params[:user][:avatar]
     if @user.save
       flash[:notice] = "ユーザー情報を編集しました"
       redirect_to("/users/#{@user.id}")
@@ -79,13 +69,11 @@ class UsersController < ApplicationController
 
   # * POST
   def login
-    # @user = User.find_by(email: params[:email], password: params[:password])
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
       # * ログインユーザーの情報を保持
       session[:user_id] = @user.id
       flash[:notice] = "ログインしました"
-      # redirect_to("/posts/index")
       redirect_to("/posts")
     else
       @error_message = "メールアドレスまたはパスワードが間違っています"
@@ -112,10 +100,8 @@ class UsersController < ApplicationController
     redirect_to("/login")
   end
 
-  # * user has many likes.
   def likes
     @user = User.find_by(id: params[:id])
-    # @likes = Like.where(user_id: @user.id)
     @like_posts = @user.like_posts.order(created_at: :desc).page(params[:page]).per(PER)
   end
 
@@ -130,7 +116,6 @@ class UsersController < ApplicationController
   end
 
 
-  # * 以下、privateにしててもいいかも
 
   def ensure_correct_user
     # * paramsは文字列
@@ -140,6 +125,8 @@ class UsersController < ApplicationController
       redirect_to("/posts")
     end
   end
+
+  private
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :avatar)

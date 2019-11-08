@@ -397,3 +397,9 @@ span a {
   width: 100%;
   opacity: 1.0;
 }
+
+
+.has-bg-img {
+  background: url('/sunrize.jpg') center center;
+  background-size:cover;
+}

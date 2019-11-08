@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Relationship, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
   before do
     @takashi = FactoryBot.create(:takashi)
     @satoshi = FactoryBot.create(:satoshi)
     @follow = FactoryBot.create(:relationship, following: @takashi, follower: @satoshi)
-    # puts @follow.inspect
   end
 
   context "有効なフォロー" do

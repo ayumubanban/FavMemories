@@ -27,7 +27,7 @@
       <div class="field">
         <%= form.label :avatar, "プロフィール画像(任意)", class: "label" %>
         <div class="control">
-          <div id="file-js-example" class="file has-name">
+          <div id="file-js" class="file has-name is-boxed">
             <label class="file-label">
               <%= form.file_field :avatar, class: "file-input", id: :book_img %>
               <span class="file-cta">
@@ -45,9 +45,6 @@
           </div>
         </div>
       </div>
-
-      <%# 一応残しとく。これと、id: :book_imgが機能 %>
-      <%= image_tag @user.avatar, id: :img_prev, class: "img_prev" if @user.avatar.attached? %>
 
       <div class="field">
         <%= form.label :password, "パスワード", class: "label" %>
@@ -72,7 +69,7 @@
 <div class="has-text-centered">
 
   <%= link_to "/auth/google_oauth2" do %>
-    <button class="button is-danger is-outlined">
+    <button class="button is-danger is-outlined margin-bottom-2">
       <span class="icon">
         <i class="fa fa-google"></i>
       </span>
@@ -80,7 +77,7 @@
     </button>
   <% end %>
   <%= link_to "/auth/github" do %>
-    <button class="button is-black is-outlined">
+    <button class="button is-black is-outlined margin-bottom-2">
       <span class="icon">
         <i class="fa fa-github"></i>
       </span>
@@ -93,11 +90,11 @@
 
 <script>
   // file inputにファイル名を反映
-  const fileInput = document.querySelector('#file-js-example input[type=file]');
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector('#file-js-example .file-name');
-      fileName.textContent = fileInput.files[0].name;
+  const file_input = document.querySelector('#file-js input[type=file]');
+  file_input.onchange = () => {
+    if (file_input.files.length > 0) {
+      const fileName = document.querySelector('#file-js .file-name');
+      fileName.textContent = file_input.files[0].name;
     }
   }
 </script>

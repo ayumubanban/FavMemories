@@ -1,6 +1,6 @@
 <% if comments.count != 0 %>
   <% comments.each do |comment| %>
-
+  <div class="box">
     <article class="media">
       <figure class="media-left">
         <%= link_to "/users/#{comment.user.id}" do %>
@@ -18,18 +18,16 @@
           <p>
             <strong><%= link_to(comment.user.name, "/users/#{comment.user.id}", class: "has-text-black") %></strong>
             <br>
-            <%= comment.content %>
+            <%= simple_format(text_url_to_link(h(comment.content)).html_safe) %>
           </p>
         </div>
 
-        <%# ログインしてる？ %>
-        <%# if @current_user %>
-          <% if comment.user == @current_user %>
-            <%= link_to "削除", "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, remote: true, class: "has-text-danger" %>
-          <% end %>
-        <%# end %>
+        <% if comment.user == @current_user %>
+          <%= link_to "削除", "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, remote: true, class: "has-text-danger" %>
+        <% end %>
       </div>
     </article>
+  </div>
 
   <% end %>
 <% else %>

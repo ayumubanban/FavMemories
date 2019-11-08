@@ -1,10 +1,5 @@
 Rails.application.routes.draw do
 
-  # * likes
-  # post "likes/:post_id/create" => "likes#create"
-  post "posts/:post_id/likes" => "likes#create"
-  # post "likes/:post_id/destroy" => "likes#destroy"
-  delete "posts/:post_id/likes" => "likes#destroy"
 
   # * users
   get "login" => "users#login_form"
@@ -29,21 +24,18 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
 
   # * posts
-  # get 'posts/index' => "posts#index"
   get 'posts' => "posts#index"
   get "posts/new" => "posts#new"
-  # post "posts/create" => "posts#create"
   post "posts" => "posts#create"
   get "posts/:id" => "posts#show"
   get "posts/:id/edit" => "posts#edit"
-  # post "posts/:id/update" => "posts#update"
   put "posts/:id" => "posts#update"
-  # post "posts/:id/destroy" => "posts#destroy"
   delete "posts/:id" => "posts#destroy"
+  # * posts / likes
+  post "posts/:post_id/likes" => "likes#create"
+  delete "posts/:post_id/likes" => "likes#destroy"
   # * posts / comments
-  # post "posts/:post_id/comments/create" => "comments#create"
   post "posts/:post_id/comments" => "comments#create"
-  # post "posts/:post_id/comments/:id/destroy" => "comments#destroy"
   delete "posts/:post_id/comments/:id" => "comments#destroy"
 
   # * home
