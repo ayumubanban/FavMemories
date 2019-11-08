@@ -64,4 +64,4 @@ URL: https://fav-memories.herokuapp.com/
 <img width="1439" alt="スクリーンショット 2019-11-08 15 52 26" src="https://user-images.githubusercontent.com/35994367/68456748-03055680-0242-11ea-888f-bc93047f564a.png">
 <img width="1439" alt="スクリーンショット 2019-11-08 16 05 06" src="https://user-images.githubusercontent.com/35994367/68456774-0e588200-0242-11ea-9309-55acd1a94c8e.png">
 <img width="1439" alt="スクリーンショット 2019-11-08 16 05 58" src="https://user-images.githubusercontent.com/35994367/68456786-17495380-0242-11ea-9c16-68e48b2fae21.png">
-<img width="1439" alt="スクリーンショット 2019-11-08 16 18 10" src="https://user-images.githubusercontent.com/35994367/68457458-b3278f00-0243-11ea-8ff8-5910029bbd4b.png">
+<img width="1439" alt="スクリーンショット 2019-11-08 16 22 58" src="https://user-images.githubusercontent.com/35994367/68457658-23ceab80-0244-11ea-8f1b-b7020379161e.png">
