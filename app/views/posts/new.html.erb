@@ -19,9 +19,9 @@
         <div class="field">
           <%= form.label :photo, "投稿画像(任意)", class: "label" %>
           <div class="control">
-            <div id="file-js-example" class="file has-name is-boxed">
+            <div id="file-js" class="file has-name is-boxed">
               <label class="file-label">
-                <%= form.file_field :photo, class: "file-input", id: :book_img %>
+                <%= form.file_field :photo, class: "file-input", id: :fileId %>
                 <span class="file-cta">
                   <span class="file-icon">
                     <i class="fa fa-upload"></i>
@@ -54,11 +54,9 @@
 
 <script>
   // file inputにファイル名を反映
-  const fileInput = document.querySelector('#file-js-example input[type=file]');
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector('#file-js-example .file-name');
-      fileName.textContent = fileInput.files[0].name;
+  document.getElementById("fileId").onchange = () => {
+    if (document.getElementById("fileId").files.length > 0) {
+      document.querySelector('#file-js .file-name').textContent = document.getElementById("fileId").files[0].name;
     }
   }
 </script>

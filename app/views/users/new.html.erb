@@ -29,7 +29,7 @@
         <div class="control">
           <div id="file-js" class="file has-name is-boxed">
             <label class="file-label">
-              <%= form.file_field :avatar, class: "file-input", id: :book_img %>
+              <%= form.file_field :avatar, class: "file-input", id: :fileId %>
               <span class="file-cta">
                 <span class="file-icon">
                   <i class="fa fa-upload"></i>
@@ -90,11 +90,9 @@
 
 <script>
   // file inputにファイル名を反映
-  const file_input = document.querySelector('#file-js input[type=file]');
-  file_input.onchange = () => {
-    if (file_input.files.length > 0) {
-      const fileName = document.querySelector('#file-js .file-name');
-      fileName.textContent = file_input.files[0].name;
+  document.getElementById("fileId").onchange = () => {
+    if (document.getElementById("fileId").files.length > 0) {
+      document.querySelector('#file-js .file-name').textContent = document.getElementById("fileId").files[0].name;
     }
   }
 </script>
