@@ -17,6 +17,13 @@ RSpec.describe PostsController, type: :request do
       end
     end
 
+    describe "GET posts#new" do
+      it "リクエストが成功する" do
+        get "/posts/new"
+        expect(response.status).to eq 200
+      end
+    end
+
     before do
       login_user
       @post = FactoryBot.create(:post, user: @takashi)
