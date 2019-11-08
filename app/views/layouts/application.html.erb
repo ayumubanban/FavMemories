@@ -23,18 +23,15 @@
   <body>
     <header>
 
-    <%# navbarの色、ログインしてるかしてないかで変えようかなぁ！？ <-なし %>
     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <% if @current_user %>
-          <%#= link_to "FavMemories", "/posts", class: " has-text-weight-bold navbar-item is-size-4" %>
           <%= link_to "/posts", class: "  navbar-item " do %>
             <%= image_tag '/star.png' %>
             <p class="has-text-weight-bold is-size-4">FavMemories</p>
             <%= image_tag '/star.png' %>
           <% end %>
         <% else %>
-          <%#= link_to("FavMemories", "/", class: "has-text-weight-bold navbar-item is-size-4" ) %>
           <%= link_to "/", class: "  navbar-item " do %>
             <%= image_tag '/star.png' %>
             <p class="has-text-weight-bold is-size-4">FavMemories</p>
@@ -67,17 +64,17 @@
               </figure>
               <span class="margin-left-2"><%= @current_user.name %></span>
             <% end %>
-            <%= link_to("投稿一覧", "/posts", class: " margin-x-1 navbar-item") %>
-            <%= link_to("新規投稿", "/posts/new", class: " margin-x-1 navbar-item") %>
-            <%= link_to("ユーザー一覧", "/users", class: " margin-x-1 navbar-item") %>
-            <%= link_to("FavMemoriesとは", "/about", class: " margin-x-1 navbar-item") %>
-            <%= link_to("ログアウト", "/logout", method: :delete, class: " margin-x-1 navbar-item") %>
+            <%= link_to("投稿一覧", "/posts", class: "navbar-item") %>
+            <%= link_to("新規投稿", "/posts/new", class: "navbar-item") %>
+            <%= link_to("ユーザー一覧", "/users", class: "navbar-item") %>
+            <%= link_to("FavMemoriesとは", "/about", class: "navbar-item") %>
+            <%= link_to("ログアウト", "/logout", method: :delete, class: "navbar-item") %>
           <% else %>
-            <%= link_to("FavMemoriesとは", "/about", class: " margin-x-1 navbar-item") %>
-            <%= link_to("投稿一覧", "/posts", class: " margin-x-1 navbar-item") %>
-            <%= link_to("ユーザー一覧", "/users", class: " margin-x-1 navbar-item") %>
-            <%= link_to("新規登録", "/signup", class: " margin-x-1 navbar-item") %>
-            <%= link_to("ログイン", "/login", class: " margin-x-1 navbar-item") %>
+            <%= link_to("FavMemoriesとは", "/about", class: "navbar-item") %>
+            <%= link_to("投稿一覧", "/posts", class: "navbar-item") %>
+            <%= link_to("ユーザー一覧", "/users", class: "navbar-item") %>
+            <%= link_to("新規登録", "/signup", class: "navbar-item") %>
+            <%= link_to("ログイン", "/login", class: "navbar-item") %>
           <% end %>
         </div>
 

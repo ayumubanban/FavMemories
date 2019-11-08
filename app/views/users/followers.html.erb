@@ -8,13 +8,11 @@
               <%= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
             <% elsif @user.image %>
               <%= link_to image_tag(@user.image, class: "is-rounded"), @user.image, class: "popup-link" %>
-              <%#= image_tag @user.image, class: "is-rounded" %>
             <% else %>
               <%= link_to image_tag("/avatar.png", class: "is-rounded"), "/avatar.png", class: "popup-link" %>
             <% end %>
           </figure>
           <h2 class="is-size-4 has-text-weight-bold padding-y-2"><%= @user.name %></h2>
-          <p><%#= @user.email %></p>
 
           <%# フォロー ajax %>
           <div id="follows_buttons_<%= @user.id %>">
@@ -25,8 +23,6 @@
             <%= @user.intro %>
           </p>
 
-          <%# これはidを比較する必要はあるのか？ないよな？ %>
-          <%# if @user.id == @current_user.id %>
           <div class="margin-top-2">
             <% if @user == @current_user %>
               <%= link_to '編集', "/users/#{@user.id}/edit", class: "has-text-grey" %>
@@ -42,7 +38,6 @@
     <div class="tabs is-centered is-boxed">
       <ul>
         <li>
-          <%#= link_to("投稿", "/users/#{@user.id}") %>
           <%= link_to("/users/#{@user.id}") do %>
             <div>
               <p class="heading has-text-dark is-size-6">投稿</p>
@@ -51,7 +46,6 @@
           <% end %>
         </li>
         <li>
-          <%#= link_to("いいね!", "/users/#{@user.id}/likes") %>
           <%= link_to("/users/#{@user.id}/likes") do %>
             <div>
               <p class="heading has-text-dark is-size-6">いいね</p>
@@ -60,7 +54,6 @@
           <% end %>
         </li>
         <li>
-          <%#= link_to("フォロー一覧", "/users/#{@user.id}/follows") %>
           <%= link_to("/users/#{@user.id}/follows") do %>
             <div>
               <p class="heading has-text-dark is-size-6">フォロー</p>
@@ -69,7 +62,6 @@
           <% end %>
         </li>
         <li class="is-active">
-          <%#= link_to("フォロワー一覧", "/users/#{@user.id}/followers") %>
           <%= link_to("/users/#{@user.id}/followers") do %>
             <div>
               <p class="heading has-text-dark is-size-6">フォロワー</p>

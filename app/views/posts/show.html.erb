@@ -8,7 +8,6 @@
               <%= link_to "/users/#{@user.id}" do %>
               <figure class="image is-64x64">
                 <% if @user.avatar.attached? %>
-                  <%#= link_to image_tag(@user.avatar, class: "is-rounded"), @user.avatar, class: "popup-link" %>
                   <%= image_tag @user.avatar, class: "is-rounded" %>
                 <% elsif @user.image %>
                   <%= image_tag @user.image, class: "is-rounded" %>
@@ -22,16 +21,13 @@
               <p class="title is-4"><%= link_to @user.name, "/users/#{@user.id}", class: "has-text-black has-text-weight-normal" %></p>
             </div>
 
-            <%# フォロー ajax %>
-            <div id="follows_buttons_<%= @user.id %>" class="margin-top-2">
-              <%= render partial: "relationships/follow", locals: { user: @user } %>
-            </div>
+            <%# フォロー ajax この部分にやってたけど削除 %>
 
           </div>
         </div>
         <% if @post.photo.attached? %>
           <div class="card-image padding-top-4">
-            <figure class="image is-4by3">
+            <figure class="image is-5by3">
               <%= link_to image_tag(@post.photo, class: ""), @post.photo, class: "popup-link" %>
             </figure>
           </div>
@@ -40,7 +36,6 @@
 
 
           <div class="content is-size-4" style="word-wrap: break-word;">
-              <%#= simple_format(h(@post.content)) %>
               <%# 改行＆リンク反映 %>
               <%= simple_format(text_url_to_link(h(@post.content)).html_safe) %>
           </div>
@@ -104,7 +99,7 @@
         </div>
         <div class="field">
           <div class="control">
-            <%= link_to 'コメントする', "/posts/#{@post.id}/comments", method: :post, class: "button is-outlined is-small" %>
+            <%= link_to 'コメントする', "/posts/#{@post.id}/comments", method: :post, class: "button is-link is-outlined is-small" %>
           </div>
         </div>
         <% end %>

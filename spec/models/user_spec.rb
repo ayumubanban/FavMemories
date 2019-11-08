@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
 
   before do
     @takashi = FactoryBot.create(:takashi, email: "takashi@example.com")
@@ -29,12 +28,8 @@ RSpec.describe User, type: :model do
       expect(@takashi).not_to be_valid
     end
 
-    # before do
-    #   user = FactoryBot.create(:takashi, email: "takashi@example.com")
-    # end
     it "メールアドレスが重複する" do
       other_user = FactoryBot.build(:takashi, email: "takashi@example.com")
-      # puts @takashi.email
       expect(other_user).not_to be_valid
     end
 

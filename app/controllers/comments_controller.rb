@@ -8,10 +8,9 @@ class CommentsController < ApplicationController
     if @comment.save
       render :index
     else
-      flash[:danger] = "コメントは1文字〜〇〇文字以内でお願いします"
+      flash[:danger] = "コメントは1文字〜150文字以内でお願いします"
       redirect_to request.referrer
     end
-    # redirect_to("/posts/#{@post.id}")
   end
 
   def destroy
@@ -20,11 +19,9 @@ class CommentsController < ApplicationController
       post_id: params[:post_id],
       id: params[:id]
     )
-    # if @comment && @current_user == @comment.user
     if @current_user == @comment.user
       @comment.destroy
       render :index
-      # redirect_to("/posts/#{params[:post_id]}")
     else
       # * 既にbefore_actionあるのに、これは微妙<-そんなことなし
       flash[:notice] =  "権限がありません"

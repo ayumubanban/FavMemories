@@ -1,5 +1,15 @@
-<div class="sunrize">
-  <%= image_tag '/sunrize.jpg' %>
-  <p>何か、いいことあった？<br>
-  あなたが体験した、かけがえのない瞬間をシェアしよう！</p>
-</div>
+<section class="hero is-fullheight has-bg-img">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="has-text-white is-size-1 has-text-weight-bold">何か、いいことあった？</h1>
+      <h2 class="has-text-white is-size-2">あなたが味わった、かけがえのない瞬間をシェアしよう！</h2>
+      <%= link_to "/signup" do %>
+        <button class="button is-white margin-right-1 is-link is-inverted margin-top-3">新規登録</button>
+      <% end %>
+      <%= link_to "/login" do %>
+        <button class="button is-white margin-left-1 is-link is-inverted margin-top-3">ログイン</button>
+      <% end %>
+    </div>
+  </div>
+</section>
+

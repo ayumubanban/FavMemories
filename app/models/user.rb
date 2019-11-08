@@ -1,9 +1,7 @@
 class User < ApplicationRecord
   has_secure_password  # * passwordがあるかどうか自動的にチェックしてくれる
-  # * これやっちゃうとユーザー編集にパスワードを求められちゃってユーザーフレンドリーじゃなくなっちゃうので、いいや。
-  # validates :password, length: { minimum: 6 }
-  # validates :password, presence: true, length: { minimum: 6 }
-
+  # * allow_nilによって、ユーザー編集時にpasswordを求められなくて済む
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :name, { presence: true, length: { maximum: 20 } }
   validates :email, { presence: true, uniqueness: true }
   validates :intro, length: { maximum: 150 }
@@ -51,10 +49,4 @@ class User < ApplicationRecord
       return user
     end
   end
-
-
-  # * user has many postsっていう1対多の関係を自分らでメソッド定義して表してる
-  # def posts
-  #   return Post.where(user_id: self.id)
-  # end
 end

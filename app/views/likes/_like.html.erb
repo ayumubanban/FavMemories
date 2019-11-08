@@ -8,7 +8,7 @@
     <% end %>
   <% else %>
     <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
-      <span class="fa fa-heart like-btn has-text-grey"></span>
+      <span class="fa fa-heart-o like-btn has-text-grey"></span>
     <% end %>
   <% end %>
   <%= post.likes.count %>
@@ -16,7 +16,7 @@
 <% else %>
   <%# ログインを促される宿命 %>
   <%= link_to "/posts/#{post.id}/likes", method: :post, remote: true do %>
-    <span class="fa fa-heart like-btn has-text-grey"></span>
+    <span class="fa fa-heart-o like-btn has-text-grey"></span>
   <% end %>
   <%= post.likes.count %>
 <% end %>
