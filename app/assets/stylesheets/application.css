@@ -373,32 +373,6 @@ span a {
   background-color: #ff9800;
 }
 
-/* * top画面 */
-.sunrize{
-  position: relative;
-}
-
-.sunrize p{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%,-50%);
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-  margin:0;
-  padding:0;
-  color: white;
-  font-weight: bold;
-  font-size: 2em;
-  /* font-family: Quicksand, sans-serif; */
-}
-
-.sunrize img{
-  width: 100%;
-  opacity: 1.0;
-}
-
-
 .has-bg-img {
   background: url('/sunrize.jpg') center center;
   background-size:cover;
