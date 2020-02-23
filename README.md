@@ -47,8 +47,6 @@ URL: https://fav-memories.herokuapp.com/
 - 画像アップロード機能
   - Active Storage
   - AWS S3
-- 静的ファイルのCDN配信
-  - AWS CloudFront
 - ページネーション機能
   - kaminari
 - フロント開発
