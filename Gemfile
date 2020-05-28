@@ -70,4 +70,4 @@ gem 'omniauth-github'
 gem 'rails-i18n'
 
 # ページネーション
-gem 'kaminari', '~> 1.1.0'
+gem 'kaminari', '~> 1.2.1'
